@@ -2,4 +2,6 @@
     <string name="app_name">MAD Demo S22</string>
     <string name="welcomeMessage1">Welcome to MAD S22</string>
     <string name="welcomeMessage2">Welcome again</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
 </resources>

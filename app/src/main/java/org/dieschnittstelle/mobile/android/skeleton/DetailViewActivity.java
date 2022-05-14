@@ -24,7 +24,7 @@ public class DetailViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailview);
         itemNameText = findViewById(R.id.itemName);
         itemDescriptionText = findViewById(R.id.itemDescription);
-        saveNewItemButton = findViewById(R.id.fab_detail);
+        saveNewItemButton = findViewById(R.id.fab);
         saveNewItemButton.setOnClickListener(s -> onSaveItem());
 
         ToDo item = (ToDo) getIntent().getSerializableExtra(ARG_ITEM);
