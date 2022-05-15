@@ -4,8 +4,10 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         addNewItemButton = findViewById(R.id.fab_add);
         addNewItemButton.setOnClickListener(v -> onAddNewItemButton());
 
-        listViewAdapter = new ArrayAdapter<>(this, R.layout.activity_main_listitem_view, listViewItems);
+        listViewAdapter = initialiseListViewAdapter();
         listView.setAdapter(listViewAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -63,8 +67,26 @@ public class MainActivity extends AppCompatActivity {
 
         Arrays.asList("Lorem", "Ipsum", "Olar", "Pipsum", "Enfis").
                 stream()
-    .map(name -> new ToDo(name))
-                .forEach( item -> this.addListItemView(item));
+                .map(name -> new ToDo(name))
+                .forEach(item -> this.addListItemView(item));
+    }
+
+    @NonNull
+    private ArrayAdapter<ToDo> initialiseListViewAdapter() {
+        return new ArrayAdapter<>(this, R.layout.activity_main_listitem_view, listViewItems) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                ToDo item = super.getItem(position);
+                ViewGroup itemView = (ViewGroup) getLayoutInflater().inflate(R.layout.activity_main_listitem_view, null);
+                TextView itemNameText = itemView.findViewById(R.id.itemName);
+                CheckBox itemChecked = itemView.findViewById(R.id.itemChecked);
+                //bind data to view elements
+                itemNameText.setText(item.getName());
+                itemChecked.setChecked(item.isChecked());
+                return itemView;
+            }
+        };
     }
 
     private void InitialiseActivityResultLauncher() {
@@ -73,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                        if(result.getResultCode() == Activity.RESULT_OK){
+                        if (result.getResultCode() == Activity.RESULT_OK) {
                             ToDo item = (ToDo) result.getData().getSerializableExtra(DetailViewActivity.ARG_ITEM);
                             addListItemView(item);
                         }

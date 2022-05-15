@@ -15,13 +15,6 @@ public class ToDo implements Serializable {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "DataItem{" +
-                "name='" + name + '\'' +
-                '}';
-    }
-
     public String getName() {
         return name;
     }
