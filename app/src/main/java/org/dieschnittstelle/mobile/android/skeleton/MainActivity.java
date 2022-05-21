@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuView;
+import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,7 +25,10 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.dieschnittstelle.mobile.android.skeleton.databinding.ActivityMainListitemViewBinding;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDo;
+import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperations;
+import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperationsImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private ArrayAdapter<ToDo> listViewAdapter;
     private List<ToDo> listViewItems = new ArrayList<>();
+
+    private ToDoCRUDOperations crudOperations;
 
 
     private ActivityResultLauncher<Intent> detailviewForNewActivityLauncher;
@@ -65,10 +71,9 @@ public class MainActivity extends AppCompatActivity {
 
         InitialiseActivityResultLauncher();
 
-        Arrays.asList("Lorem", "Ipsum", "Olar", "Pipsum", "Enfis").
-                stream()
-                .map(name -> new ToDo(name))
-                .forEach(item -> this.addListItemView(item));
+        crudOperations = ToDoCRUDOperationsImpl.getInstance();
+
+        crudOperations.readAllToDos().forEach(item -> this.addListItemView(item));
     }
 
     @NonNull
@@ -76,14 +81,16 @@ public class MainActivity extends AppCompatActivity {
         return new ArrayAdapter<>(this, R.layout.activity_main_listitem_view, listViewItems) {
             @NonNull
             @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            public View getView(int position, @Nullable View existingListitemView, @NonNull ViewGroup parent) {
                 ToDo item = super.getItem(position);
-                ViewGroup itemView = (ViewGroup) getLayoutInflater().inflate(R.layout.activity_main_listitem_view, null);
-                TextView itemNameText = itemView.findViewById(R.id.itemName);
-                CheckBox itemChecked = itemView.findViewById(R.id.itemChecked);
-                //bind data to view elements
-                itemNameText.setText(item.getName());
-                itemChecked.setChecked(item.isChecked());
+
+                ActivityMainListitemViewBinding itemBinding =  existingListitemView != null
+                        ? (ActivityMainListitemViewBinding) existingListitemView.getTag()
+                        : DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_main_listitem_view, null, false);
+
+                itemBinding.setItem(item);
+                View itemView = itemBinding.getRoot();
+                itemView.setTag(itemBinding);
                 return itemView;
             }
         };
@@ -96,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK) {
-                            ToDo item = (ToDo) result.getData().getSerializableExtra(DetailViewActivity.ARG_ITEM);
+                            long itemId = result.getData().getLongExtra(DetailViewActivity.ARG_ITEM_ID, -1);
+                            ToDo item = crudOperations.readToDo(itemId);
                             addListItemView(item);
                         }
                     }
@@ -110,11 +118,12 @@ public class MainActivity extends AppCompatActivity {
 //        listView.addView(listItemView);
 //        listItemView.setOnClickListener(v -> onListitemSelected(((TextView) v).getText().toString()));
         listViewAdapter.add(item);
+        listView.setSelection(listViewAdapter.getPosition(item));
     }
 
     private void onListitemSelected(ToDo item) {
         Intent detailviewIntent = new Intent(this, DetailViewActivity.class);
-        detailviewIntent.putExtra(DetailViewActivity.ARG_ITEM, item);
+        detailviewIntent.putExtra(DetailViewActivity.ARG_ITEM_ID, item.getId());
         startActivity(detailviewIntent);
     }
 
@@ -138,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(LOGGER, "data: " + data);
         if (requestCode == CALL_DETAILVIEW_FOR_NEW_ITEM) {
             if (resultCode == Activity.RESULT_OK) {
-                String name = data.getStringExtra(DetailViewActivity.ARG_ITEM);
+                String name = data.getStringExtra(DetailViewActivity.ARG_ITEM_ID);
 //                showMessage("revieved: " + name);
 //                addListItemView(name);
             }

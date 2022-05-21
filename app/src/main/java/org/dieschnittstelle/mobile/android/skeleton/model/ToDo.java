@@ -1,9 +1,11 @@
 package org.dieschnittstelle.mobile.android.skeleton.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class ToDo implements Serializable {
 
+    private long id;
     private String name;
     private String description;
     private boolean checked;
@@ -14,6 +16,29 @@ public class ToDo implements Serializable {
     public ToDo(String name) {
         this.name = name;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ToDo toDo = (ToDo) o;
+        return id == toDo.id && checked == toDo.checked && Objects.equals(name, toDo.name) && Objects.equals(description, toDo.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, checked);
+    }
+
+
 
     public String getName() {
         return name;
@@ -38,4 +63,6 @@ public class ToDo implements Serializable {
     public void setChecked(boolean checked) {
         this.checked = checked;
     }
+
+
 }
