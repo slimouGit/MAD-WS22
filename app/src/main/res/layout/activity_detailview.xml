@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="org.dieschnittstelle.mobile.android.skeleton.DetailViewModel" />
+            type="org.dieschnittstelle.mobile.android.skeleton.DetailViewActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

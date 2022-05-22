@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +31,8 @@ import org.dieschnittstelle.mobile.android.skeleton.databinding.ActivityMainList
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDo;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperationsImpl;
+import org.dieschnittstelle.mobile.android.skeleton.util.MADAsyncOperationRunner;
+import org.dieschnittstelle.mobile.android.skeleton.util.MADAsyncTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private List<ToDo> listViewItems = new ArrayList<>();
 
     private ToDoCRUDOperations crudOperations;
+    private ProgressBar progressBar;
+    private MADAsyncOperationRunner operationRunner;
 
 
     private ActivityResultLauncher<Intent> detailviewForNewActivityLauncher;
@@ -58,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         addNewItemButton = findViewById(R.id.fab_add);
         addNewItemButton.setOnClickListener(v -> onAddNewItemButton());
-
+        progressBar = findViewById(R.id.progressBar);
+        operationRunner = new MADAsyncOperationRunner(this, progressBar);
         listViewAdapter = initialiseListViewAdapter();
         listView.setAdapter(listViewAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,8 +79,37 @@ public class MainActivity extends AppCompatActivity {
         InitialiseActivityResultLauncher();
 
         crudOperations = ToDoCRUDOperationsImpl.getInstance();
+        operationRunner.run(
+                () -> crudOperations.readAllToDos(),
+                items -> {
+//                    items.forEach(item -> this.addListItemView(item));
+                    items.forEach(this::addListItemView);
+                });
+//        progressBar.setVisibility(View.VISIBLE);
+//        new Thread(() -> {
+//            List<ToDo> items = crudOperations.readAllToDos();
+//            runOnUiThread(() -> {
+//                items.forEach(this::addListItemView);
+//                progressBar.setVisibility(View.GONE);
+//            });
+//        }).start();
 
-        crudOperations.readAllToDos().forEach(item -> this.addListItemView(item));
+//        new MADAsyncTask<Void, Void, List<ToDo>>(){
+//
+//            @Override
+//            protected void onPreExecute(){
+//                progressBar.setVisibility(View.VISIBLE);
+//            }
+//            @Override
+//            protected List<ToDo> doInBackground(Void... voids) {
+//                return crudOperations.readAllToDos();
+//            }
+//            @Override
+//            protected void onPostExecute(List<ToDo> toDos) {
+//                toDos.forEach(item -> MainActivity.this.addListItemView(item));
+//                progressBar.setVisibility(View.GONE);
+//            }
+//        }.execute();
     }
 
     @NonNull
@@ -84,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             public View getView(int position, @Nullable View existingListitemView, @NonNull ViewGroup parent) {
                 ToDo item = super.getItem(position);
 
-                ActivityMainListitemViewBinding itemBinding =  existingListitemView != null
+                ActivityMainListitemViewBinding itemBinding = existingListitemView != null
                         ? (ActivityMainListitemViewBinding) existingListitemView.getTag()
                         : DataBindingUtil.inflate(getLayoutInflater(), R.layout.activity_main_listitem_view, null, false);
 
@@ -96,17 +132,32 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+//    private void InitialiseActivityResultLauncher() {
+//        this.detailviewForNewActivityLauncher = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                new ActivityResultCallback<ActivityResult>() {
+//                    @Override
+//                    public void onActivityResult(ActivityResult result) {
+//                        if (result.getResultCode() == Activity.RESULT_OK) {
+//                            long itemId = result.getData().getLongExtra(DetailViewActivity.ARG_ITEM_ID, -1);
+//                            ToDo item = crudOperations.readToDo(itemId);
+//                            addListItemView(item);
+//                        }
+//                    }
+//                }
+//        );
+//    }
+
     private void InitialiseActivityResultLauncher() {
-        this.detailviewForNewActivityLauncher = registerForActivityResult(
+        detailviewForNewActivityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            long itemId = result.getData().getLongExtra(DetailViewActivity.ARG_ITEM_ID, -1);
-                            ToDo item = crudOperations.readToDo(itemId);
-                            addListItemView(item);
-                        }
+                (result) -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        long itemId = result.getData().getLongExtra(DetailViewActivity.ARG_ITEM_ID, -1);
+                        operationRunner.run(
+                                () -> crudOperations.readToDo(itemId),
+                                item -> addListItemView(item)
+                        );
                     }
                 }
         );

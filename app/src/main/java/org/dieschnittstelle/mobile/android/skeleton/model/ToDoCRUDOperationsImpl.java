@@ -34,11 +34,22 @@ public class ToDoCRUDOperationsImpl implements ToDoCRUDOperations {
 
     @Override
     public List<ToDo> readAllToDos() {
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return new ArrayList<>(todoMap.values());
     }
 
     @Override
     public ToDo readToDo(long id) {
+
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return todoMap.get(id);
     }
 
