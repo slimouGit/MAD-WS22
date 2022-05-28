@@ -1,28 +1,22 @@
 package org.dieschnittstelle.mobile.android.skeleton;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -32,10 +26,8 @@ import org.dieschnittstelle.mobile.android.skeleton.model.ToDo;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperationsImpl;
 import org.dieschnittstelle.mobile.android.skeleton.util.MADAsyncOperationRunner;
-import org.dieschnittstelle.mobile.android.skeleton.util.MADAsyncTask;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private MADAsyncOperationRunner operationRunner;
 
 
-    private ActivityResultLauncher<Intent> detailviewForNewActivityLauncher;
+    private ActivityResultLauncher<Intent> detailviewActivityLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        InitialiseActivityResultLauncher();
+        initialiseActivityResultLauncher();
 
         crudOperations = ToDoCRUDOperationsImpl.getInstance();
         operationRunner.run(
@@ -148,19 +140,34 @@ public class MainActivity extends AppCompatActivity {
 //        );
 //    }
 
-    private void InitialiseActivityResultLauncher() {
-        detailviewForNewActivityLauncher = registerForActivityResult(
+    private void initialiseActivityResultLauncher() {
+        detailviewActivityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 (result) -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
+                    if (result.getResultCode() == DetailViewActivity.STATUS_CREATED || result.getResultCode() == DetailViewActivity.STATUS_UPDATED) {
                         long itemId = result.getData().getLongExtra(DetailViewActivity.ARG_ITEM_ID, -1);
                         operationRunner.run(
                                 () -> crudOperations.readToDo(itemId),
-                                item -> addListItemView(item)
+                                item -> {
+                                    if (result.getResultCode() == DetailViewActivity.STATUS_CREATED) {
+                                        onDataItemCreated(item);
+                                    }
+                                    if (result.getResultCode() == DetailViewActivity.STATUS_UPDATED) {
+                                        onDataItemUpdated(item);
+                                    }
+                                }
                         );
                     }
                 }
         );
+    }
+
+    private void onDataItemCreated(ToDo item) {
+        this.addListItemView(item);
+    }
+
+    private void onDataItemUpdated(ToDo item) {
+        this.listViewAdapter.notifyDataSetChanged();
     }
 
     private void addListItemView(ToDo item) {
@@ -175,7 +182,8 @@ public class MainActivity extends AppCompatActivity {
     private void onListitemSelected(ToDo item) {
         Intent detailviewIntent = new Intent(this, DetailViewActivity.class);
         detailviewIntent.putExtra(DetailViewActivity.ARG_ITEM_ID, item.getId());
-        startActivity(detailviewIntent);
+//        startActivity(detailviewIntent);
+        detailviewActivityLauncher.launch(detailviewIntent);
     }
 
     private void showMessage(String msg) {
@@ -188,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
     private void onAddNewItemButton() {
         Intent detailviewIntentForAddItem = new Intent(this, DetailViewActivity.class);
 //        startActivityForResult(detailviewIntentForAddItem, CALL_DETAILVIEW_FOR_NEW_ITEM);
-        detailviewForNewActivityLauncher.launch(detailviewIntentForAddItem);
+        detailviewActivityLauncher.launch(detailviewIntentForAddItem);
     }
 
     @Override

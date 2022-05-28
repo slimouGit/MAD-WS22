@@ -20,6 +20,9 @@ import org.dieschnittstelle.mobile.android.skeleton.util.MADAsyncOperationRunner
 
 public class DetailViewActivity extends AppCompatActivity implements DetailViewModel {
     public static String ARG_ITEM_ID = "itemId";
+    public static int STATUS_CREATED = 42;
+    public static int STATUS_UPDATED = -42;
+
     private ToDo item;
     private ActivityDetailviewBindingImpl binding;
     private ToDoCRUDOperations crudOperations;
@@ -57,14 +60,17 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
 
     public void onSaveItem() {
         Intent returnIntent = new Intent();
-        if (item.getId() > 0) {
-            this.item = this.crudOperations.updateToDo(this.item);
-        } else {
-            this.item = this.crudOperations.createToDo(this.item);
-        }
-        returnIntent.putExtra(ARG_ITEM_ID, this.item.getId());
 
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+        int resultCode = item.getId() > 0 ? STATUS_UPDATED : STATUS_CREATED;
+
+        operationRunner.run(
+                () -> item.getId() > 0 ? crudOperations.updateToDo(item) : crudOperations.createToDo(item),
+                item -> {
+                    this.item = item;
+                    returnIntent.putExtra(ARG_ITEM_ID,this.item.getId());
+                    setResult(resultCode,returnIntent);
+                    finish();
+                }
+        );
     }
 }
