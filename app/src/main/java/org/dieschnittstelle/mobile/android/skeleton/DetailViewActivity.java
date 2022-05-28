@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.dieschnittstelle.mobile.android.skeleton.databinding.ActivityDetailviewBindingImpl;
+import org.dieschnittstelle.mobile.android.skeleton.model.RoomLocalTodoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDo;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperationsImpl;
@@ -33,7 +34,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_detailview);
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_detailview);
-        this.crudOperations = ToDoCRUDOperationsImpl.getInstance();
+        this.crudOperations = new RoomLocalTodoCRUDOperations(this.getApplicationContext());
 
         this.operationRunner = new MADAsyncOperationRunner(this, null);
         long itemId = getIntent().getLongExtra(ARG_ITEM_ID, -1);

@@ -22,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.dieschnittstelle.mobile.android.skeleton.databinding.ActivityMainListitemViewBinding;
+import org.dieschnittstelle.mobile.android.skeleton.model.RoomLocalTodoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDo;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperationsImpl;
@@ -70,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         initialiseActivityResultLauncher();
 
-        crudOperations = ToDoCRUDOperationsImpl.getInstance();
+//        crudOperations = ToDoCRUDOperationsImpl.getInstance();
+        crudOperations = new RoomLocalTodoCRUDOperations(this.getApplicationContext());
         operationRunner.run(
                 () -> crudOperations.readAllToDos(),
                 items -> {
@@ -167,6 +169,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onDataItemUpdated(ToDo item) {
+        ToDo itemToBeUpdated = this.listViewAdapter.getItem(this.listViewAdapter.getPosition(item));
+        itemToBeUpdated.setName(item.getName());
+        itemToBeUpdated.setDescription(item.getDescription());
+        itemToBeUpdated.setChecked(item.isChecked());
         this.listViewAdapter.notifyDataSetChanged();
     }
 

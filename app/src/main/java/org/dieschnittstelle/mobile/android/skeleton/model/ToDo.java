@@ -1,10 +1,15 @@
 package org.dieschnittstelle.mobile.android.skeleton.model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
 public class ToDo implements Serializable {
 
+    @PrimaryKey(autoGenerate = true)
     private long id;
     private String name;
     private String description;
