@@ -11,6 +11,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.dieschnittstelle.mobile.android.skeleton.databinding.ActivityMainListitemViewBinding;
+import org.dieschnittstelle.mobile.android.skeleton.model.RetrofitRemoteDataItemCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.model.RoomLocalTodoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDo;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperations;
@@ -29,6 +32,7 @@ import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperationsImpl
 import org.dieschnittstelle.mobile.android.skeleton.util.MADAsyncOperationRunner;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -72,7 +76,10 @@ public class MainActivity extends AppCompatActivity {
         initialiseActivityResultLauncher();
 
 //        crudOperations = ToDoCRUDOperationsImpl.getInstance();
-        crudOperations = new RoomLocalTodoCRUDOperations(this.getApplicationContext());
+//        crudOperations = new RoomLocalTodoCRUDOperations(this.getApplicationContext());
+        crudOperations = new RetrofitRemoteDataItemCRUDOperations();
+
+
         operationRunner.run(
                 () -> crudOperations.readAllToDos(),
                 items -> {
@@ -219,5 +226,30 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.overview_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.sortList) {
+            showMessage("SORT LIST");
+            sortItems();
+            return true;
+        } else if (item.getItemId() == R.id.deleteAllItemsLocally) {
+            showMessage("DELETE ALL ITEMS LOCALLY");
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void sortItems(){
+        this.listViewItems.sort(Comparator.comparing(ToDo::getName));
+        this.listViewAdapter.notifyDataSetChanged();
     }
 }
