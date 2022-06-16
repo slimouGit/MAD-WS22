@@ -1,2 +1,2 @@
-include ':app'
 rootProject.name='org.dieschnittstelle.mobile.android.skeleton'
+include ':app2'
