@@ -44,4 +44,9 @@ public class SyncedToDoCRUDOperations implements ToDoCRUDOperations {
             return false;
         }
     }
+
+    @Override
+    public boolean deleteAll() {
+        return false;
+    }
 }

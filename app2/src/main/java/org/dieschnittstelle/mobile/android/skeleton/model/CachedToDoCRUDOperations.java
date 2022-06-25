@@ -7,8 +7,6 @@ import java.util.Map;
 
 public class CachedToDoCRUDOperations implements ToDoCRUDOperations {
 
-//    private static ToDoCRUDOperationsImpl instance;
-
     private ToDoCRUDOperations realCrudOperations;
 
     private Map<Long, ToDo> todoMap = new HashMap<>();
@@ -20,7 +18,6 @@ public class CachedToDoCRUDOperations implements ToDoCRUDOperations {
 
     @Override
     public ToDo createToDo(ToDo item) {
-//        item.setId(++idCount);
         ToDo created = realCrudOperations.createToDo(item);
         todoMap.put(created.getId(), created);
         return item;
@@ -67,4 +64,10 @@ public class CachedToDoCRUDOperations implements ToDoCRUDOperations {
             return false;
         }
     }
+
+    @Override
+    public boolean deleteAll() {
+        return false;
+    }
+
 }

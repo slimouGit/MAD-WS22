@@ -13,4 +13,6 @@ public interface ToDoCRUDOperations {
     public ToDo updateToDo(ToDo todoToUpdate);
 
     public boolean deleteToDo(long id);
+
+    public boolean deleteAll();
 }

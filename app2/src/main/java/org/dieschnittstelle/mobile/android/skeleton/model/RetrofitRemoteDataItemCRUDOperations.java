@@ -86,4 +86,9 @@ public class RetrofitRemoteDataItemCRUDOperations implements ToDoCRUDOperations{
             throw new RuntimeException("got exception" + e, e);
         }
     }
+
+    @Override
+    public boolean deleteAll() {
+        return false;
+    }
 }

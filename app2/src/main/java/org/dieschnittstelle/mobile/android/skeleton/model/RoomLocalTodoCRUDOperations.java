@@ -73,4 +73,9 @@ public class RoomLocalTodoCRUDOperations implements ToDoCRUDOperations{
         db.getDao().delete(readToDo(id));
         return false;
     }
+
+    @Override
+    public boolean deleteAll() {
+        return false;
+    }
 }
