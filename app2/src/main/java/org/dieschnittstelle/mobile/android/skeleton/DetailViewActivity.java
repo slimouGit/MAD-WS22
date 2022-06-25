@@ -1,13 +1,22 @@
 package org.dieschnittstelle.mobile.android.skeleton;
 
+import static org.dieschnittstelle.mobile.android.skeleton.MainActivity.LOGGER;
+
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -41,7 +50,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         this.selectContactLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if(result.getResultCode() == Activity.RESULT_OK){
+                    if (result.getResultCode() == Activity.RESULT_OK) {
                         onContactSelected(result.getData());
                     }
                 }
@@ -68,7 +77,6 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         }
         //        this.binding.setItem(this.item);
     }
-
 
 
     public ToDo getItem() {
@@ -140,6 +148,75 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
     }
 
     public void onContactSelected(Intent resultData) {
+        showContactDetails(resultData.getData());
+    }
 
+    private Uri latestSelectedContactUri;
+    private static int REQUEST_CONTACT_PERMISSIONS_REQUES_CODE = 42;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CONTACT_PERMISSIONS_REQUES_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (latestSelectedContactUri != null) {
+                    showContactDetails(latestSelectedContactUri);
+                } else {
+                    Toast.makeText(this, "Cannot continue", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(this, "Contacts cannot be accassed", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    public void showContactDetails(Uri contactUri) {
+
+        int hasReadContactsPermission = checkSelfPermission(Manifest.permission.READ_CONTACTS);
+        if (hasReadContactsPermission != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CONTACT_PERMISSIONS_REQUES_CODE);
+            return;
+        }
+
+        Cursor cursor = getContentResolver().query(contactUri, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            Log.i(LOGGER, "Moved to first element of query result");
+            int contactNamePosition = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+            String contactName = cursor.getString(contactNamePosition);
+            Log.i(LOGGER, "contactname " + contactName);
+            int internalIdPosition = cursor.getColumnIndex(ContactsContract.Contacts._ID);
+            long internalId = cursor.getLong(internalIdPosition);
+            Log.i(LOGGER, "internalId " + internalId);
+            showContactDetailsForInternalId(internalId);
+        }
+    }
+
+    public void showContactDetailsForInternalId(long internalId) {
+        Cursor cursor = getContentResolver().query(
+                ContactsContract.Contacts.CONTENT_URI,
+                null,
+                ContactsContract.Contacts._ID + "=?",
+                new String[]{String.valueOf(internalId)}, null);
+        if (cursor.moveToFirst()) {
+            @SuppressLint("Range") String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+            Log.i(LOGGER, "displayed Name " + displayName);
+
+        } else {
+            Toast.makeText(this, "No Contacts found for internalId " + internalId + "...", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null,
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
+                new String[]{String.valueOf(internalId)},
+                null
+        );
+        while (cursor.moveToNext()) {
+            @SuppressLint("Range") String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            @SuppressLint("Range")  int phoneNumberType = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+            Log.i(LOGGER, "got Number " + number + " of type " + (phoneNumberType == ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE ? "mobile" : "not mobil"));
+        }
     }
 }
