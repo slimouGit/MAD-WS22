@@ -1,12 +1,11 @@
 package org.dieschnittstelle.mobile.android.skeleton.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ToDoCRUDOperationsImpl implements ToDoCRUDOperations {
+public class CachedToDoCRUDOperations implements ToDoCRUDOperations {
 
 //    private static ToDoCRUDOperationsImpl instance;
 
@@ -15,7 +14,7 @@ public class ToDoCRUDOperationsImpl implements ToDoCRUDOperations {
     private Map<Long, ToDo> todoMap = new HashMap<>();
 
 
-    public ToDoCRUDOperationsImpl(ToDoCRUDOperations realCrudOperations) {
+    public CachedToDoCRUDOperations(ToDoCRUDOperations realCrudOperations) {
         this.realCrudOperations = realCrudOperations;
     }
 
@@ -48,7 +47,7 @@ public class ToDoCRUDOperationsImpl implements ToDoCRUDOperations {
             }
             return item;
         }
-        return todoMap.get(id);
+         return todoMap.get(id);
     }
 
     @Override

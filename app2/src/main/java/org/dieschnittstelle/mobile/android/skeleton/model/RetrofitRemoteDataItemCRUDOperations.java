@@ -1,6 +1,5 @@
 package org.dieschnittstelle.mobile.android.skeleton.model;
 
-import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;

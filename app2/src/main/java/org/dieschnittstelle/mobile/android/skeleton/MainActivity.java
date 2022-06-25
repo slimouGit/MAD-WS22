@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.dieschnittstelle.mobile.android.skeleton.databinding.ActivityMainListitemViewBinding;
 import org.dieschnittstelle.mobile.android.skeleton.model.RetrofitRemoteDataItemCRUDOperations;
+import org.dieschnittstelle.mobile.android.skeleton.model.RoomLocalTodoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDo;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.util.MADAsyncOperationRunner;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private MADAsyncOperationRunner operationRunner;
     private Comparator<ToDo> currentComparator = NAME_COMPARATOR;
+    private RoomLocalTodoCRUDOperations localTodoCRUDOperations;
 
 
     private ActivityResultLauncher<Intent> detailviewActivityLauncher;
@@ -197,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.overview_menu, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

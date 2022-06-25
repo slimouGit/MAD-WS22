@@ -24,8 +24,13 @@
                 android:id="@+id/itemName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lines="1"
-                android:text="@={viewmodel.item.name}">
+                android:singleLine="true"
+                android:error ="@{viewmodel.errorStatus}"
+                android:onFocusChange="@{(view, hasFocus) -> viewmodel.checkedFieldInputCompleted(view,-1,hasFocus,true )}"
+                android:onEditorAction="@{(view, actionId, event) -> viewmodel.checkedFieldInputCompleted(view,actionId,false, false)}"
+                android:text="@={viewmodel.item.name}"
+                android:onTextChanged="@{(a,b,c,d) -> viewmodel.onNameFieldInputChanged()}"
+                >
 
                 <requestFocus />
             </com.google.android.material.textfield.TextInputEditText>
