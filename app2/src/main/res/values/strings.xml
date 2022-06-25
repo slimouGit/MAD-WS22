@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MAD Demo S22</string>
+    <string name="app_name">My ToDos</string>
     <string name="welcomeMessage1">Welcome to MAD S22</string>
     <string name="welcomeMessage2">Welcome again</string>
     <string name="name">Name</string>

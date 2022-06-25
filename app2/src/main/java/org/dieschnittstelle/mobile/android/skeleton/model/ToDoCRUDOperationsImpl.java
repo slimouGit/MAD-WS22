@@ -8,59 +8,64 @@ import java.util.Map;
 
 public class ToDoCRUDOperationsImpl implements ToDoCRUDOperations {
 
-    private static ToDoCRUDOperationsImpl instance;
+//    private static ToDoCRUDOperationsImpl instance;
+
+    private ToDoCRUDOperations realCrudOperations;
 
     private Map<Long, ToDo> todoMap = new HashMap<>();
-    private long idCount = 0;
 
-    public static ToDoCRUDOperationsImpl getInstance(){
-        if(null == instance){
-            instance = new ToDoCRUDOperationsImpl();
-        }
-        return instance;
-    }
 
-    private ToDoCRUDOperationsImpl() {
-        Arrays.asList("Lorem", "Ipsum", "Olar", "Pipsum", "Enfis", "Lorem").
-                forEach(name -> this.createToDo(new ToDo(name)));
+    public ToDoCRUDOperationsImpl(ToDoCRUDOperations realCrudOperations) {
+        this.realCrudOperations = realCrudOperations;
     }
 
     @Override
     public ToDo createToDo(ToDo item) {
-        item.setId(++idCount);
-        todoMap.put(item.getId(), item);
+//        item.setId(++idCount);
+        ToDo created = realCrudOperations.createToDo(item);
+        todoMap.put(created.getId(), created);
         return item;
     }
 
     @Override
     public List<ToDo> readAllToDos() {
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(todoMap.size() == 0){
+            realCrudOperations.readAllToDos().forEach(
+                    item -> {
+                        todoMap.put(item.getId(), item);
+                    }
+            );
         }
         return new ArrayList<>(todoMap.values());
     }
 
     @Override
     public ToDo readToDo(long id) {
-
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(!todoMap.containsKey(id)){
+            ToDo item = realCrudOperations.readToDo(id);
+            if(item != null){
+                todoMap.put(item.getId(), item);
+            }
+            return item;
         }
         return todoMap.get(id);
     }
 
     @Override
     public ToDo updateToDo(ToDo todoToUpdate) {
-        return todoMap.put(todoToUpdate.getId(),todoToUpdate);
+        ToDo updated = this.realCrudOperations.updateToDo(todoToUpdate);
+        todoMap.put(todoToUpdate.getId(), updated);
+        return updated;
     }
 
     @Override
     public boolean deleteToDo(long id) {
-        todoMap.remove(id);
-        return true;
+        if(this.realCrudOperations.deleteToDo(id)){
+            todoMap.remove(id);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

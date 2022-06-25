@@ -7,4 +7,6 @@ public interface DetailViewModel {
     public ToDo getItem();
 
     public void onSaveItem();
+
+
 }
