@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <data>
         <variable
             name="viewmodel"
@@ -24,13 +23,12 @@
                 android:id="@+id/itemName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:error ="@{viewmodel.errorStatus}"
-                android:onFocusChange="@{(view, hasFocus) -> viewmodel.checkedFieldInputCompleted(view,-1,hasFocus,true )}"
+                android:error="@{viewmodel.errorStatus}"
                 android:onEditorAction="@{(view, actionId, event) -> viewmodel.checkedFieldInputCompleted(view,actionId,false, false)}"
-                android:text="@={viewmodel.item.name}"
+                android:onFocusChange="@{(view, hasFocus) -> viewmodel.checkedFieldInputCompleted(view,-1,hasFocus,true )}"
                 android:onTextChanged="@{(a,b,c,d) -> viewmodel.onNameFieldInputChanged()}"
-                >
+                android:singleLine="true"
+                android:text="@={viewmodel.item.name}">
 
                 <requestFocus />
             </com.google.android.material.textfield.TextInputEditText>
