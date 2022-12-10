@@ -1,5 +1,6 @@
 package org.dieschnittstelle.mobile.android.skeleton;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,8 @@ public class LoginActivity extends AppCompatActivity {
                 if(Objects.equals(username.getText().toString(), "admin")&&Objects.equals(password.getText().toString(),"admin"))
                 {
                     Toast.makeText(LoginActivity.this,"You have Authenticated Successfully",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }else
                 {
                     Toast.makeText(LoginActivity.this,"Authentication Failed",Toast.LENGTH_LONG).show();
