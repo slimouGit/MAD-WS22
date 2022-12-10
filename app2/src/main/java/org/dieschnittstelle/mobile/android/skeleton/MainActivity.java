@@ -24,7 +24,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.dieschnittstelle.mobile.android.skeleton.databinding.ActivityMainListitemViewBinding;
-import org.dieschnittstelle.mobile.android.skeleton.model.RetrofitRemoteDataItemCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.model.RoomLocalTodoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDo;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperations;
@@ -176,6 +175,16 @@ public class MainActivity extends AppCompatActivity {
         Intent detailviewIntentForAddItem = new Intent(this, DetailViewActivity.class);
 //        startActivityForResult(detailviewIntentForAddItem, CALL_DETAILVIEW_FOR_NEW_ITEM);
         detailviewActivityLauncher.launch(detailviewIntentForAddItem);
+    }
+
+    public void onFavouriteStatusChangedInListview(ToDo item) {
+        this.operationRunner.run(
+                () -> crudOperations.updateToDo(item),
+                updateditem -> {
+                    onDataItemUpdated(updateditem);
+                    showMessage("favourite status changed " + updateditem.getName());
+                }
+        );
     }
 
     @Override
