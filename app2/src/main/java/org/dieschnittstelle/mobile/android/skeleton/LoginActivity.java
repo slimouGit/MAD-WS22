@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button login;
     private TextView errorMessage;
     private TextView pwdErrorMessage;
+    private TextView loginErrorMessage;
     boolean emailIsValid = false;
     boolean passwordIsValid = false;
 
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         pwdErrorMessage = findViewById(R.id.pwdError);
         login = findViewById(R.id.login);
+        loginErrorMessage = findViewById(R.id.loginError);
         login.setEnabled(false);
 
 
@@ -91,7 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_LONG).show();
+                    loginErrorMessage.setTextColor(Color.RED);
+                    loginErrorMessage.setText("Authentication Failed");
                 }
             }
         });
