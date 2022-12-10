@@ -21,6 +21,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     private Button login;
     private TextView errorMessage;
+    private TextView pwdErrorMessage;
+    boolean emailIsValid = false;
+    boolean passwordIsValid = false;
 
 
     @Override
@@ -30,32 +33,53 @@ public class LoginActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         errorMessage = findViewById(R.id.text);
         password = findViewById(R.id.password);
+        pwdErrorMessage = findViewById(R.id.pwdError);
         login = findViewById(R.id.login);
         login.setEnabled(false);
 
+
         username.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
                 if (!username.toString().isEmpty() && username.getText().toString().trim().matches(emailPattern) && !password.toString().isEmpty()) {
                     errorMessage.setText("valid email");
                     errorMessage.setTextColor(Color.GREEN);
-                    login.setEnabled(true);
+                    emailIsValid = true;
+                    checkLoginButtonState();
                 } else {
-                    errorMessage.setText("invalid email");
                     errorMessage.setTextColor(Color.RED);
+                    errorMessage.setText("invalid email");
+                    emailIsValid = false;
+                    login.setEnabled(false);
                 }
             }
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        });
+
+        password.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable editable) {
+                if (!password.getText().toString().equals("")) {
+                    pwdErrorMessage.setText("valid password");
+                    pwdErrorMessage.setTextColor(Color.GREEN);
+                    passwordIsValid = true;
+                    checkLoginButtonState();
+                } else {
+                    pwdErrorMessage.setTextColor(Color.RED);
+                    pwdErrorMessage.setText("invalid password");
+                    passwordIsValid = false;
+                    login.setEnabled(false);
+                }
+            }
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         });
 
 
@@ -71,5 +95,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void checkLoginButtonState() {
+        if(emailIsValid && passwordIsValid){
+            login.setEnabled(true);
+        }
     }
 }
