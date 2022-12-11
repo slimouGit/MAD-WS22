@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="item"
             type="org.dieschnittstelle.mobile.android.skeleton.model.ToDo" />
@@ -40,6 +40,7 @@
             android:layout_height="match_parent"
             android:id="@+id/favIcon"
             android:layout_gravity="center_vertical"
+            android:visibility="@{item.favourite ? View.VISIBLE : View.GONE}"
             android:contentDescription="ICON"
             android:src="@drawable/favorite"/>
     </LinearLayout>

@@ -17,6 +17,7 @@ public class ToDo implements Serializable {
     private String description;
     @SerializedName("done")
     private boolean checked;
+    @SerializedName("favourite")
     private boolean favourite;
 
     public ToDo() {
