@@ -40,52 +40,49 @@ public class LoginActivity extends AppCompatActivity {
         loginErrorMessage.setVisibility(View.GONE);
         login.setEnabled(false);
 
-
-        username.addTextChangedListener(new TextWatcher() {
+        username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void afterTextChanged(Editable editable) {
-                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]{2}";
-                if (username.getText().toString().trim().matches(emailPattern)) {
-                    errorMessage.setText("valid email");
-                    errorMessage.setTextColor(Color.GREEN);
-                    emailIsValid = true;
-                    checkLoginButtonState();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]{2}";
+                    if (username.getText().toString().trim().matches(emailPattern)) {
+                        errorMessage.setText("valid email");
+                        errorMessage.setTextColor(Color.GREEN);
+                        emailIsValid = true;
+                        checkLoginButtonState();
+                    } else {
+                        errorMessage.setTextColor(Color.RED);
+                        errorMessage.setText("invalid email");
+                        emailIsValid = false;
+                        login.setEnabled(false);
+                    }
                 } else {
-                    errorMessage.setTextColor(Color.RED);
-                    errorMessage.setText("invalid email");
-                    emailIsValid = false;
-                    login.setEnabled(false);
+                    errorMessage.setText("");
                 }
             }
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         });
 
-        password.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable editable) {
-                String passwordPattern = "[0-9]{6}";
-                if (password.getText().toString().trim().matches(passwordPattern)) {
-                    pwdErrorMessage.setText("valid password");
-                    pwdErrorMessage.setTextColor(Color.GREEN);
-                    passwordIsValid = true;
-                    checkLoginButtonState();
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String passwordPattern = "[0-9]{6}";
+                    if (password.getText().toString().trim().matches(passwordPattern)) {
+                        pwdErrorMessage.setText("valid password");
+                        pwdErrorMessage.setTextColor(Color.GREEN);
+                        passwordIsValid = true;
+                        checkLoginButtonState();
+                    } else {
+                        pwdErrorMessage.setTextColor(Color.RED);
+                        pwdErrorMessage.setText("invalid password");
+                        passwordIsValid = false;
+                        login.setEnabled(false);
+                    }
                 } else {
-                    pwdErrorMessage.setTextColor(Color.RED);
-                    pwdErrorMessage.setText("invalid password");
-                    passwordIsValid = false;
-                    login.setEnabled(false);
+                    pwdErrorMessage.setText("");
                 }
             }
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         });
-
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
