@@ -83,6 +83,10 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         return this.item;
     }
 
+    public void onGoBack(){
+        startActivity(new Intent(DetailViewActivity.this, MainActivity.class));
+    }
+
     public void onSaveItem() {
         Intent returnIntent = new Intent();
 
