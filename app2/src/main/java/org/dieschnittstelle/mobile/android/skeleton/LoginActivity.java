@@ -37,14 +37,15 @@ public class LoginActivity extends AppCompatActivity {
         pwdErrorMessage = findViewById(R.id.pwdError);
         login = findViewById(R.id.login);
         loginErrorMessage = findViewById(R.id.loginError);
+        loginErrorMessage.setVisibility(View.GONE);
         login.setEnabled(false);
 
 
         username.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
-                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-                if (!username.toString().isEmpty() && username.getText().toString().trim().matches(emailPattern) && !password.toString().isEmpty()) {
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]{2}";
+                if (username.getText().toString().trim().matches(emailPattern)) {
                     errorMessage.setText("valid email");
                     errorMessage.setTextColor(Color.GREEN);
                     emailIsValid = true;
@@ -65,7 +66,8 @@ public class LoginActivity extends AppCompatActivity {
 
         password.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable editable) {
-                if (!password.getText().toString().equals("")) {
+                String passwordPattern = "[0-9]{6}";
+                if (password.getText().toString().trim().matches(passwordPattern)) {
                     pwdErrorMessage.setText("valid password");
                     pwdErrorMessage.setTextColor(Color.GREEN);
                     passwordIsValid = true;
@@ -88,14 +90,19 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Objects.equals(username.getText().toString(), "a@b.cd") && Objects.equals(password.getText().toString(), "admin")) {
-                    Toast.makeText(LoginActivity.this, "You have Authenticated Successfully", Toast.LENGTH_LONG).show();
+                if (this.loginIsValid(username, password)) {
+                    Toast.makeText(LoginActivity.this, "You have authenticated successfully", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
-                    loginErrorMessage.setTextColor(Color.RED);
-                    loginErrorMessage.setText("Authentication Failed");
+                    loginErrorMessage.setVisibility(View.VISIBLE);
                 }
+            }
+
+            private boolean loginIsValid(EditText username, EditText password) {
+                String USERNAME = "a@b.de";
+                String PASSWORD = "123456";
+                return (Objects.equals(username.getText().toString(), USERNAME) && Objects.equals(password.getText().toString(), PASSWORD));
             }
         });
     }

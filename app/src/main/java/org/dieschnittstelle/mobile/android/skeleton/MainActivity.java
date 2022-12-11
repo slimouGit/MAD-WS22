@@ -236,7 +236,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.sortList) {
+        if (item.getItemId() == R.id.logout) {
+            showMessage("LOGGED OUT");
+            return true;
+        } if (item.getItemId() == R.id.sortList) {
             showMessage("SORT LIST");
             sortItems();
             return true;

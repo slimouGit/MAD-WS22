@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -203,7 +204,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.sortList) {
+        if (item.getItemId() == R.id.logout) {
+            Toast.makeText(MainActivity.this, "You have logged out successfully", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            return true;
+        } if (item.getItemId() == R.id.sortList) {
             showMessage("SORT LIST");
             this.currentComparator = CHECKED_AND_NAME_COMPARATOR;
             sortItems();

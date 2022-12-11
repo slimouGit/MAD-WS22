@@ -14,11 +14,18 @@
         android:orientation="vertical"
         tools:viewBindingIgnore="true" >
 
+        <TextView android:id="@+id/loginError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textColor="#FF0000"
+            android:text="Authentication failed" />
+
         <EditText
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="UserName" />
+            android:hint="username (email)" />
 
         <TextView android:id="@+id/text"
             android:layout_width="wrap_content"
@@ -29,12 +36,12 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="password"
+            android:hint="password (6 digits)"
             android:inputType="textPassword" />
         <TextView android:id="@+id/pwdError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PWD ERROR" />
+            android:text="" />
 
         <Button
             android:id="@+id/login"
@@ -44,11 +51,7 @@
             android:text="Login"
             android:textColor="#fff" />
 
-        <TextView android:id="@+id/loginError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="32dp"
-            android:text="LOGIN ERROR" />
+
 
 
     </LinearLayout>
