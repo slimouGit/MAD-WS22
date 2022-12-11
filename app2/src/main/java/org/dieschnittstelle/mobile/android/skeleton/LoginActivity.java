@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView loginErrorMessage;
     boolean emailIsValid = false;
     boolean passwordIsValid = false;
+    private ProgressBar spinner;
 
 
     @Override
@@ -39,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         loginErrorMessage = findViewById(R.id.loginError);
         loginErrorMessage.setVisibility(View.GONE);
         login.setEnabled(false);
+        spinner=(ProgressBar)findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
 
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -88,6 +92,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (this.loginIsValid(username, password)) {
+                    spinner=(ProgressBar)findViewById(R.id.progressBar);
+                    spinner.setVisibility(View.VISIBLE);
                     Toast.makeText(LoginActivity.this, "You have authenticated successfully", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
