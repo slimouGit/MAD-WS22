@@ -20,7 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private Button login;
-    private TextView errorMessage;
+    private TextView usernameErrorMessage;
     private TextView pwdErrorMessage;
     private TextView loginErrorMessage;
     boolean emailIsValid = false;
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         username = findViewById(R.id.username);
-        errorMessage = findViewById(R.id.text);
+        usernameErrorMessage = findViewById(R.id.usernameErrorMessage);
         password = findViewById(R.id.password);
         pwdErrorMessage = findViewById(R.id.pwdError);
         login = findViewById(R.id.login);
@@ -46,18 +46,18 @@ public class LoginActivity extends AppCompatActivity {
                 if (!hasFocus) {
                     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]{2}";
                     if (username.getText().toString().trim().matches(emailPattern)) {
-                        errorMessage.setText("valid email");
-                        errorMessage.setTextColor(Color.GREEN);
+                        usernameErrorMessage.setText("valid email");
+                        usernameErrorMessage.setTextColor(Color.GREEN);
                         emailIsValid = true;
                         checkLoginButtonState();
                     } else {
-                        errorMessage.setTextColor(Color.RED);
-                        errorMessage.setText("invalid email");
+                        usernameErrorMessage.setTextColor(Color.RED);
+                        usernameErrorMessage.setText("invalid email");
                         emailIsValid = false;
                         login.setEnabled(false);
                     }
                 } else {
-                    errorMessage.setText("");
+                    usernameErrorMessage.setText("");
                 }
             }
         });
@@ -97,8 +97,8 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             private boolean loginIsValid(EditText username, EditText password) {
-                String USERNAME = "a@b.de";
-                String PASSWORD = "123456";
+                final String USERNAME = "a@b.de";
+                final String PASSWORD = "123456";
                 return (Objects.equals(username.getText().toString(), USERNAME) && Objects.equals(password.getText().toString(), PASSWORD));
             }
         });
