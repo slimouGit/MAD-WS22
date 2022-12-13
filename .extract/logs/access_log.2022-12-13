@@ -60,3 +60,10 @@
 0:0:0:0:0:0:0:1 - - [13/Dec/2022:17:36:03 +0100] GET /api/todos HTTP/1.1 200 849 http-bio-8080-exec-10 2
 0:0:0:0:0:0:0:1 - - [13/Dec/2022:17:36:05 +0100] GET / HTTP/1.1 304 - http-bio-8080-exec-10 3
 0:0:0:0:0:0:0:1 - - [13/Dec/2022:17:36:05 +0100] GET /api/todos HTTP/1.1 200 849 http-bio-8080-exec-10 2
+0:0:0:0:0:0:0:1 - - [13/Dec/2022:17:38:13 +0100] GET / HTTP/1.1 304 - http-bio-8080-exec-1 46
+0:0:0:0:0:0:0:1 - - [13/Dec/2022:17:38:14 +0100] GET /api/todos HTTP/1.1 200 849 http-bio-8080-exec-3 500
+127.0.0.1 - - [13/Dec/2022:17:38:36 +0100] GET /api/todos HTTP/1.1 200 849 http-bio-8080-exec-5 2
+127.0.0.1 - - [13/Dec/2022:17:39:10 +0100] PUT /api/todos/7 HTTP/1.1 200 121 http-bio-8080-exec-7 98
+127.0.0.1 - - [13/Dec/2022:17:40:07 +0100] GET /api/todos HTTP/1.1 200 849 http-bio-8080-exec-9 4
+127.0.0.1 - - [13/Dec/2022:17:50:44 +0100] GET /api/todos HTTP/1.1 200 849 http-bio-8080-exec-1 2
+127.0.0.1 - - [13/Dec/2022:17:51:51 +0100] GET /api/todos HTTP/1.1 200 849 http-bio-8080-exec-5 3

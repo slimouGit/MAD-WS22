@@ -51,9 +51,11 @@
                 android:text="Datum"
                 android:padding="3dip" />
             <TextView
+                android:id="@+id/importance"
                 android:text="Wichtigkeit"
                 android:gravity="right"
-                android:padding="3dip" />
+                android:padding="3dip"
+                android:onClick="@{() -> controller.onMakeItImportance(item)}"/>
         </TableRow>
     </TableLayout>
 

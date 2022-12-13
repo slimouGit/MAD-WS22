@@ -93,6 +93,17 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    public void onMakeItImportance(ToDo item){
+        System.out.print("Item to be important " + item);
+        if(item.isFavourite()){
+        item.setFavourite(false);
+        }else{
+        item.setFavourite(true);
+
+        }
+        this.onDataItemUpdated(item);
+    }
+
     @NonNull
     private ArrayAdapter<ToDo> initialiseListViewAdapter() {
         return new ArrayAdapter<>(this, R.layout.activity_main_listitem_view, listViewItems) {
