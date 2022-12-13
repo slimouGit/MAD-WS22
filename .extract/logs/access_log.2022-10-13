@@ -1,0 +1,4 @@
+0:0:0:0:0:0:0:1 - - [13/Oct/2022:17:55:22 +0200] GET /favicon.ico HTTP/1.1 404 973 http-bio-8080-exec-2 34
+0:0:0:0:0:0:0:1 - - [13/Oct/2022:17:55:22 +0200] GET /api/todos HTTP/1.1 200 432 http-bio-8080-exec-1 359
+127.0.0.1 - - [13/Oct/2022:17:56:30 +0200] GET /api/todos HTTP/1.1 200 432 http-bio-8080-exec-5 2
+127.0.0.1 - - [13/Oct/2022:18:02:13 +0200] PUT /api/todos/1 HTTP/1.1 200 168 http-bio-8080-exec-7 98

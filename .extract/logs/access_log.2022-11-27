@@ -1,0 +1,2 @@
+127.0.0.1 - - [27/Nov/2022:10:04:16 +0100] GET /api/todos HTTP/1.1 200 552 http-bio-8080-exec-1 774
+127.0.0.1 - - [27/Nov/2022:10:39:58 +0100] GET /api/todos HTTP/1.1 200 552 http-bio-8080-exec-3 4
