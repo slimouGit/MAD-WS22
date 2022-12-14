@@ -78,6 +78,10 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         //        this.binding.setItem(this.item);
     }
 
+    public void showDatePickerDialog() {
+        System.out.println("DATEPICKER CLICKED");
+    }
+
 
     public ToDo getItem() {
         return this.item;

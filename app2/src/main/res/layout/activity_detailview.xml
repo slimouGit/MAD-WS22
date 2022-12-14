@@ -63,6 +63,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="Datepicker"
+            android:onClick="@{() -> viewmodel.showDatePickerDialog()}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemFavourite">
         </Button>
