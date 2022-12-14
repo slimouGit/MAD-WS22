@@ -95,13 +95,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void onMakeItImportance(ToDo item){
         System.out.print("Item to be important " + item);
-        if(item.isFavourite()){
-        item.setFavourite(false);
-        }else{
-        item.setFavourite(true);
+        item.setFavourite(!item.isFavourite());
+        this.operationRunner.run(
+                () -> crudOperations.updateToDo(item),
+                updateditem -> {
+                    onDataItemUpdated(updateditem);
+                    showMessage("checked changed " + updateditem.getName());
+                }
+        );
 
-        }
-        this.onDataItemUpdated(item);
+//        this.onDataItemUpdated(item);
     }
 
     @NonNull
