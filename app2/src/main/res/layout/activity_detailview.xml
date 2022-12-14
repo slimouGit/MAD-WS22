@@ -44,7 +44,6 @@
             android:text="@string/checked"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemNameWrapper">
-
         </com.google.android.material.checkbox.MaterialCheckBox>
 
         <com.google.android.material.checkbox.MaterialCheckBox
@@ -55,8 +54,18 @@
             android:text="favourite"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemChecked">
-
         </com.google.android.material.checkbox.MaterialCheckBox>
+
+        <Button
+            android:id="@+id/datePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Datepicker"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/itemFavourite">
+        </Button>
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -65,8 +74,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/description"
             app:hintEnabled="true"
-            app:layout_constraintTop_toBottomOf="@+id/itemFavourite">
-
+            app:layout_constraintTop_toBottomOf="@+id/datePicker">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/itemDescription"
                 android:layout_width="match_parent"
@@ -76,6 +84,7 @@
                 android:minLines="5"
                 android:text="@={viewmodel.item.description}" />
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -87,15 +96,8 @@
             app:layout_constraintRight_toRightOf="parent"
             app:srcCompat="@drawable/baseline_save_white_24dp" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/bck"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:onClick="@{() -> viewmodel.onGoBack()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="parent"
-            app:srcCompat="@drawable/baseline_back_white_24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>
