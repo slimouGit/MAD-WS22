@@ -29,6 +29,8 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
 import org.dieschnittstelle.mobile.android.skeleton.databinding.ActivityDetailviewBindingImpl;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDo;
@@ -95,22 +97,34 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         builder.setTitleText("Select a Date");
         MaterialDatePicker<Long> picker = builder.build();
 
+        MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(Calendar.HOUR_OF_DAY)
+                .setMinute(Calendar.MINUTE)
+                .build();
+
         picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onPositiveButtonClick(Long selection) {
-                System.out.print(""+picker.getHeaderText());
                 Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("MEZ"));
                 calendar.setTimeInMillis(selection);
-                System.out.print(""+picker.getHeaderText().getClass().getName());
-                System.out.print(""+calendar.getClass().getName());
-                Timestamp ts=new Timestamp(calendar.getTimeInMillis());
-                System.out.print(ts.getTime());
+                Timestamp ts = new Timestamp(calendar.getTimeInMillis());
+                ts.setHours(materialTimePicker.getHour());
+                ts.setMinutes(materialTimePicker.getMinute());
                 String time = String.valueOf(ts.getTime());
                 getItem().setExpiry(time);
+                System.out.print(" " + materialTimePicker.getHour());
             }
         });
         picker.show(getSupportFragmentManager(), picker.toString());
+        materialTimePicker.show(getSupportFragmentManager(), materialTimePicker.toString());
+    }
+
+    private void addTime(Calendar calendar) {
+
+
+
     }
 
 
@@ -126,7 +140,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         Intent returnIntent = new Intent();
 
         int resultCode = item.getId() > 0 ? STATUS_UPDATED : STATUS_CREATED;
-        if(null == item.getExpiry()){
+        if (null == item.getExpiry()) {
             item.setExpiry(String.valueOf(System.currentTimeMillis()));
         }
         operationRunner.run(
