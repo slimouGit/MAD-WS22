@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private MADAsyncOperationRunner operationRunner;
     private Comparator<ToDo> currentComparator = NAME_COMPARATOR;
     private RoomLocalTodoCRUDOperations localTodoCRUDOperations;
+    private String itemDateTime;
 
 
     private ActivityResultLauncher<Intent> detailviewActivityLauncher;
@@ -92,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
                     sortItems();
                 });
     }
+
+    public String getReadableDateTime(String expiry){
+        return expiry;
+    };
 
     public void onMakeItImportance(ToDo item){
         System.out.print("Item to be important " + item);
@@ -164,10 +169,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addListItemView(ToDo item) {
-//        TextView listItemView = (TextView) getLayoutInflater().inflate(R.layout.activity_main_listitem_view, null);
-//        listItemView.setText(item);
-//        listView.addView(listItemView);
-//        listItemView.setOnClickListener(v -> onListitemSelected(((TextView) v).getText().toString()));
         listViewAdapter.add(item);
         listView.setSelection(listViewAdapter.getPosition(item));
         sortItems();
