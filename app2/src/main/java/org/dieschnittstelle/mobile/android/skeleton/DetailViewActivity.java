@@ -104,8 +104,6 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
                 calendar.setTimeInMillis(selection);
                 System.out.print(""+picker.getHeaderText().getClass().getName());
                 System.out.print(""+calendar.getClass().getName());
-                LocalDate selectedDate = LocalDate.of(calendar.getWeekYear(), calendar.getTime().getMonth(), calendar.getTime().getDay());
-                DateTimeFormatter FOMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy 'at' hh:mm a z");
                 Timestamp ts=new Timestamp(calendar.getTimeInMillis());
                 System.out.print(ts.getTime());
                 String time = String.valueOf(ts.getTime());
