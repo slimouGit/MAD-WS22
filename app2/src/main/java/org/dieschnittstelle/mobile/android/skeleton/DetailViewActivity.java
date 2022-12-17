@@ -128,7 +128,9 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         Intent returnIntent = new Intent();
 
         int resultCode = item.getId() > 0 ? STATUS_UPDATED : STATUS_CREATED;
-
+        if(null == item.getExpiry()){
+            item.setExpiry(String.valueOf(System.currentTimeMillis()));
+        }
         operationRunner.run(
                 () -> item.getId() > 0 ? crudOperations.updateToDo(item) : crudOperations.createToDo(item),
                 item -> {

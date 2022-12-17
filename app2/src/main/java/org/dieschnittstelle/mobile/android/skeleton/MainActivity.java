@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private MADAsyncOperationRunner operationRunner;
     private Comparator<ToDo> currentComparator = NAME_COMPARATOR;
     private RoomLocalTodoCRUDOperations localTodoCRUDOperations;
-    private String itemDateTime;
+    private TextView itemDateTime;
 
 
     private ActivityResultLauncher<Intent> detailviewActivityLauncher;
@@ -94,8 +95,8 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public String getReadableDateTime(String expiry){
-        return expiry;
+    public String getReadableDateTime(ToDo item){
+        return item.getExpiry();
     };
 
     public void onMakeItImportance(ToDo item){
