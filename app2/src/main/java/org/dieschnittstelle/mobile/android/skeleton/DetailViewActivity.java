@@ -25,6 +25,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
+
 import org.dieschnittstelle.mobile.android.skeleton.databinding.ActivityDetailviewBindingImpl;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDo;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperations;
@@ -80,6 +82,10 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
 
     public void showDatePickerDialog() {
         System.out.println("DATEPICKER CLICKED");
+        MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
+        builder.setTitleText("Select a Date");
+        MaterialDatePicker<Long> picker = builder.build();
+        picker.show(getSupportFragmentManager(), picker.toString());
     }
 
 
@@ -87,7 +93,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         return this.item;
     }
 
-    public void onGoBack(){
+    public void onGoBack() {
         startActivity(new Intent(DetailViewActivity.this, MainActivity.class));
     }
 
@@ -223,7 +229,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         );
         while (cursor.moveToNext()) {
             @SuppressLint("Range") String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            @SuppressLint("Range")  int phoneNumberType = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+            @SuppressLint("Range") int phoneNumberType = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             Log.i(LOGGER, "got Number " + number + " of type " + (phoneNumberType == ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE ? "mobile" : "not mobil"));
         }
     }
