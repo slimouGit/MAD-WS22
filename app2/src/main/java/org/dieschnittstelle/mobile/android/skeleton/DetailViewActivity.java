@@ -35,9 +35,10 @@ import org.dieschnittstelle.mobile.android.skeleton.model.ToDo;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.util.MADAsyncOperationRunner;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 public class DetailViewActivity extends AppCompatActivity implements DetailViewModel {
@@ -51,6 +52,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
     private MADAsyncOperationRunner operationRunner;
     private ToDoCRUDOperations crudOperations;
     private ActivityResultLauncher<Intent> selectContactLauncher;
+    private String expiryDateTime;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,6 +105,11 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
                 System.out.print(""+picker.getHeaderText().getClass().getName());
                 System.out.print(""+calendar.getClass().getName());
                 LocalDate selectedDate = LocalDate.of(calendar.getWeekYear(), calendar.getTime().getMonth(), calendar.getTime().getDay());
+                DateTimeFormatter FOMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy 'at' hh:mm a z");
+                Timestamp ts=new Timestamp(calendar.getTimeInMillis());
+                System.out.print(ts.getTime());
+                String time = String.valueOf(ts.getTime());
+                getItem().setExpiry(time);
             }
         });
         picker.show(getSupportFragmentManager(), picker.toString());
