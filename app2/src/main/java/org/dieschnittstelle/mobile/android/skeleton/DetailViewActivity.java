@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -22,15 +23,22 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import org.dieschnittstelle.mobile.android.skeleton.databinding.ActivityDetailviewBindingImpl;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDo;
 import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.util.MADAsyncOperationRunner;
+
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class DetailViewActivity extends AppCompatActivity implements DetailViewModel {
     public static String ARG_ITEM_ID = "itemId";
@@ -81,10 +89,22 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
     }
 
     public void showDatePickerDialog() {
-        System.out.println("DATEPICKER CLICKED");
         MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
         builder.setTitleText("Select a Date");
         MaterialDatePicker<Long> picker = builder.build();
+
+        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onPositiveButtonClick(Long selection) {
+                System.out.print(""+picker.getHeaderText());
+                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("MEZ"));
+                calendar.setTimeInMillis(selection);
+                System.out.print(""+picker.getHeaderText().getClass().getName());
+                System.out.print(""+calendar.getClass().getName());
+                LocalDate selectedDate = LocalDate.of(calendar.getWeekYear(), calendar.getTime().getMonth(), calendar.getTime().getDay());
+            }
+        });
         picker.show(getSupportFragmentManager(), picker.toString());
     }
 
