@@ -47,8 +47,9 @@
         </TableRow>
         <TableRow>
             <TextView
+                android:id="@+id/expiry"
                 android:layout_column="1"
-                android:text="@{item.expiry}"
+                android:text="@{item.readableExpiry}"
                 android:padding="3dip" />
             <TextView
                 android:id="@+id/importance"

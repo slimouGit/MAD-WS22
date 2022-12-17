@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import retrofit2.http.GET;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String LOGGER = "OverviewActivity";
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        itemDateTime = findViewById(R.id.expiry);
         viewRoot = findViewById(R.id.viewRoot);
         listView = findViewById(R.id.listView);
         addNewItemButton = findViewById(R.id.fab_add);
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    @GET
     public String getReadableDateTime(ToDo item){
         return item.getExpiry();
     };
