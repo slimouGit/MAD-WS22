@@ -29,6 +29,7 @@ public class ToDo implements Serializable {
     private boolean favourite;
     private String expiry;
     private String readableExpiry;
+    private boolean overdue;
 
     public ToDo() {
     }
@@ -42,12 +43,12 @@ public class ToDo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ToDo toDo = (ToDo) o;
-        return id == toDo.id && checked == toDo.checked && favourite == toDo.favourite && Objects.equals(name, toDo.name) && Objects.equals(description, toDo.description) && Objects.equals(expiry, toDo.expiry) && Objects.equals(readableExpiry, toDo.readableExpiry);
+        return id == toDo.id && checked == toDo.checked && favourite == toDo.favourite && overdue == toDo.overdue && Objects.equals(name, toDo.name) && Objects.equals(description, toDo.description) && Objects.equals(expiry, toDo.expiry) && Objects.equals(readableExpiry, toDo.readableExpiry);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, checked, favourite, expiry, readableExpiry);
+        return Objects.hash(id, name, description, checked, favourite, expiry, readableExpiry, overdue);
     }
 
     public long getId() {
@@ -108,5 +109,25 @@ public class ToDo implements Serializable {
 
     public void setReadableExpiry(String readableExpiry) {
         this.readableExpiry = readableExpiry;
+    }
+
+    public boolean isOverdue() {
+        boolean showExclamationMark = false;
+        Date expiryDate = new Date(Long.valueOf(expiry));
+        Date currentDate = new java.util.Date(System.currentTimeMillis());
+        int result = expiryDate.compareTo(currentDate);
+        if (result == 0) {
+            showExclamationMark = true;
+        } else if (result > 0) {
+            showExclamationMark = false;
+        } else if (result < 0) {
+            showExclamationMark = true;
+        } else {
+        }
+        return showExclamationMark;
+    }
+
+    public void setOverdue(boolean overdue) {
+        this.overdue = overdue;
     }
 }

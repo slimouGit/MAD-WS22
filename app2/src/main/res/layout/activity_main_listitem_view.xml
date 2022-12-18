@@ -62,7 +62,8 @@
                 android:layout_marginLeft="1dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/exclamation_mark"
-                android:visibility="@{item.favourite ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{item.overdue ? View.VISIBLE : View.GONE}" />
+
             <TextView
                 android:id="@+id/expiry"
                 android:layout_column="1"
