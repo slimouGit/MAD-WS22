@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="item"
             type="org.dieschnittstelle.mobile.android.skeleton.model.ToDo" />
@@ -17,48 +19,65 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:stretchColumns="1">
+
         <TableRow>
-        <CheckBox
-            android:id="@+id/itemChecked"
-            android:layout_width="25dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:checked="@={item.checked}"
-            android:focusable="false"
-            android:onClick="@{() -> controller.onCheckedChangedInListview(item)}" />
 
-        <TextView
-            android:id="@+id/itemName"
-            android:layout_width="280dp"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:text="@{item.name}"
-            android:textSize="30sp"/>
+            <CheckBox
+                android:id="@+id/itemChecked"
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:checked="@={item.checked}"
+                android:focusable="false"
+                android:onClick="@{() -> controller.onCheckedChangedInListview(item)}" />
 
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="20dp"
-            android:id="@+id/favIcon"
-            android:layout_gravity="center_vertical"
-            android:visibility="@{item.favourite ? View.VISIBLE : View.GONE}"
-            android:contentDescription="ICON"
-            android:src="@drawable/favorite"/>
+            <TextView
+                android:id="@+id/itemName"
+                android:layout_width="280dp"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:text="@{item.name}"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:id="@+id/favIcon"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="25dp"
+                android:maxHeight="25dp"
+                android:scaleType="fitCenter"
+                android:contentDescription="ICON"
+                android:src="@drawable/favorite"
+                android:visibility="@{item.favourite ? View.VISIBLE : View.GONE}" />
         </TableRow>
+
         <TableRow>
+
+            <ImageView
+                android:id="@+id/exclamationIcon"
+                android:layout_width="10dp"
+                android:layout_marginLeft="1dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/exclamation_mark"
+                android:visibility="@{item.favourite ? View.VISIBLE : View.GONE}" />
             <TextView
                 android:id="@+id/expiry"
                 android:layout_column="1"
-                android:text="@{item.readableExpiry}"
                 android:layout_marginLeft="8dp"
-                android:padding="3dip" />
+                android:padding="3dip"
+                android:text="@{item.readableExpiry}"/>
+
+
             <TextView
                 android:id="@+id/importance"
-                android:text="@{item.favourite ? controller.IS_NOFAV: controller.IS_FAV}"
                 android:layout_marginRight="20dp"
                 android:gravity="right"
+                android:onClick="@{() -> controller.onMakeItImportance(item)}"
                 android:padding="3dip"
-                android:onClick="@{() -> controller.onMakeItImportance(item)}"/>
+                android:text="@{item.favourite ? controller.IS_NOFAV: controller.IS_FAV}" />
         </TableRow>
     </TableLayout>
 
