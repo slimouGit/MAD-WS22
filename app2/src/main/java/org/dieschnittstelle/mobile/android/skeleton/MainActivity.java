@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton addNewItemButton;
     public static final Comparator<ToDo> NAME_COMPARATOR = Comparator.comparing(ToDo::getName);
     public static final Comparator<ToDo> CHECKED_AND_NAME_COMPARATOR = Comparator.comparing(ToDo::isChecked).thenComparing(ToDo::getName);
+    public static final Comparator<ToDo> DATE_AND_FAV_COMPARATOR = Comparator.comparing(ToDo::getExpiry).thenComparing(ToDo::isFavourite);
     public static final String IS_NOFAV = "no fav?";
     public static final String IS_FAV = "fav?";
     private ListView listView;
@@ -102,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
     public String getReadableDateTime(ToDo item){
         return item.getExpiry();
     };
+
+    public boolean isTodoOverdue(ToDo item ){
+        return true;
+    }
 
     public void onMakeItImportance(ToDo item){
         System.out.print("Item to be important " + item);
@@ -230,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } if (item.getItemId() == R.id.sortList) {
             showMessage("SORT LIST");
-            this.currentComparator = CHECKED_AND_NAME_COMPARATOR;
+            this.currentComparator = DATE_AND_FAV_COMPARATOR;
             sortItems();
             return true;
         } else if (item.getItemId() == R.id.deleteAllItemsLocally) {

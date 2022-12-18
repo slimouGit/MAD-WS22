@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -47,7 +48,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
     public static String ARG_ITEM_ID = "itemId";
     public static int STATUS_CREATED = 42;
     public static int STATUS_UPDATED = -42;
-
+    private ArrayAdapter<ToDo> listViewAdapter;
     private String errorStatus;
     private ToDo item;
     private ActivityDetailviewBindingImpl binding;
