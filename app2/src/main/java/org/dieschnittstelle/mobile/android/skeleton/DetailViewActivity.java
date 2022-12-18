@@ -117,8 +117,8 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
                 getItem().setExpiry(time);
             }
         });
-        materialTimePicker.show(getSupportFragmentManager(), materialTimePicker.toString());
         picker.show(getSupportFragmentManager(), picker.toString());
+        materialTimePicker.show(getSupportFragmentManager(), materialTimePicker.toString());
     }
 
     private void addTime(Calendar calendar) {
