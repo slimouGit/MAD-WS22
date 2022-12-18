@@ -85,6 +85,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
 
         if (this.item == null) {
             this.item = new ToDo();
+            this.item.setExpiry(String.valueOf(System.currentTimeMillis()));
             this.binding.setViewmodel(this);
         } else {
             this.binding.setViewmodel(this);
@@ -114,11 +115,10 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
                 ts.setMinutes(materialTimePicker.getMinute());
                 String time = String.valueOf(ts.getTime());
                 getItem().setExpiry(time);
-                System.out.print(" " + materialTimePicker.getHour());
             }
         });
-        picker.show(getSupportFragmentManager(), picker.toString());
         materialTimePicker.show(getSupportFragmentManager(), materialTimePicker.toString());
+        picker.show(getSupportFragmentManager(), picker.toString());
     }
 
     private void addTime(Calendar calendar) {

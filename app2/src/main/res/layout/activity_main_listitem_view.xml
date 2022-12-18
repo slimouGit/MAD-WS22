@@ -50,10 +50,12 @@
                 android:id="@+id/expiry"
                 android:layout_column="1"
                 android:text="@{item.readableExpiry}"
+                android:layout_marginLeft="8dp"
                 android:padding="3dip" />
             <TextView
                 android:id="@+id/importance"
-                android:text="Wichtigkeit"
+                android:text="@{item.favourite ? controller.IS_NOFAV: controller.IS_FAV}"
+                android:layout_marginRight="20dp"
                 android:gravity="right"
                 android:padding="3dip"
                 android:onClick="@{() -> controller.onMakeItImportance(item)}"/>

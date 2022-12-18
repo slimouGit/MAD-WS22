@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="viewmodel"
             type="org.dieschnittstelle.mobile.android.skeleton.DetailViewActivity" />
@@ -56,17 +56,19 @@
             app:layout_constraintTop_toBottomOf="@+id/itemChecked">
         </com.google.android.material.checkbox.MaterialCheckBox>
 
-        <Button
-            android:id="@+id/datePicker"
+        <TextView
+            android:id="@+id/expiryItem"
+            android:layout_column="1"
+            android:text="@{viewmodel.item.readableExpiry}"
+            android:padding="3dip"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="Datepicker"
-            android:onClick="@{() -> viewmodel.showDatePickerDialog()}"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/itemFavourite">
-        </Button>
+            android:onClick="@{() -> viewmodel.showDatePickerDialog()}"
+            app:layout_constraintTop_toBottomOf="@+id/itemFavourite"/>
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -75,7 +77,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/description"
             app:hintEnabled="true"
-            app:layout_constraintTop_toBottomOf="@+id/datePicker">
+            app:layout_constraintTop_toBottomOf="@+id/expiryItem">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/itemDescription"
                 android:layout_width="match_parent"

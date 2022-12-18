@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton addNewItemButton;
     public static final Comparator<ToDo> NAME_COMPARATOR = Comparator.comparing(ToDo::getName);
     public static final Comparator<ToDo> CHECKED_AND_NAME_COMPARATOR = Comparator.comparing(ToDo::isChecked).thenComparing(ToDo::getName);
-
+    public static final String IS_NOFAV = "no fav?";
+    public static final String IS_FAV = "fav?";
     private ListView listView;
     private ArrayAdapter<ToDo> listViewAdapter;
     private List<ToDo> listViewItems = new ArrayList<>();
