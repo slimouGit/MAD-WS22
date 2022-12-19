@@ -18,14 +18,14 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:stretchColumns="1">
+        android:stretchColumns="0">
 
         <TableRow>
 
             <CheckBox
                 android:id="@+id/itemChecked"
                 android:layout_width="25dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:checked="@={item.checked}"
                 android:focusable="false"
@@ -34,20 +34,18 @@
             <TextView
                 android:id="@+id/itemName"
                 android:layout_width="280dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@{item.name}"
                 android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/favIcon"
-                android:layout_width="10dp"
-                android:layout_height="match_parent"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="20dp"
                 android:adjustViewBounds="true"
-                android:maxWidth="25dp"
-                android:maxHeight="25dp"
                 android:scaleType="fitCenter"
                 android:contentDescription="ICON"
                 android:src="@drawable/favorite"
@@ -58,11 +56,10 @@
 
             <ImageView
                 android:id="@+id/exclamationIcon"
-                android:layout_width="10dp"
-                android:layout_marginLeft="1dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/exclamation_mark"
-                android:visibility="@{item.overdue ? View.VISIBLE : View.GONE}" />
+                android:src="@{item.overdue ? @drawable/exclamation_mark : @drawable/blank_mark}" />
 
             <TextView
                 android:id="@+id/expiry"
@@ -70,7 +67,6 @@
                 android:layout_marginLeft="8dp"
                 android:padding="3dip"
                 android:text="@{item.readableExpiry}"/>
-
 
             <TextView
                 android:id="@+id/importance"

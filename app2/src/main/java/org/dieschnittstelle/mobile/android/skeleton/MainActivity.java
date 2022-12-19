@@ -47,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
     public static final Comparator<ToDo> CHECKED_AND_NAME_COMPARATOR = Comparator.comparing(ToDo::isChecked).thenComparing(ToDo::getName);
     public static final Comparator<ToDo> DATE_AND_FAV_COMPARATOR = Comparator.comparing(ToDo::getExpiry).thenComparing(ToDo::isFavourite);
     public static final String IS_NOFAV = "no fav?";
-    public static final String IS_FAV = "fav?";
+    public static final String IS_FAV = "is fav?";
+    public static final String MARGIN_LEFT_WITH_ICON = "8dp";
+    public static final String MARGIN_LEFT_WITHOUT_ICON = "20dp";
+    public static final String BLANK = "          ";
     private ListView listView;
     private ArrayAdapter<ToDo> listViewAdapter;
     private List<ToDo> listViewItems = new ArrayList<>();

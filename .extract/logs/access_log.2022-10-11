@@ -1,4 +1,0 @@
-127.0.0.1 - - [11/Oct/2022:17:24:26 +0200] PUT /api/todos/1 HTTP/1.1 200 155 http-bio-8080-exec-3 643
-127.0.0.1 - - [11/Oct/2022:17:24:26 +0200] PUT /api/todos/1 HTTP/1.1 200 155 http-bio-8080-exec-1 647
-127.0.0.1 - - [11/Oct/2022:17:24:26 +0200] PUT /api/todos/1 HTTP/1.1 200 155 http-bio-8080-exec-2 644
-127.0.0.1 - - [11/Oct/2022:17:24:34 +0200] PUT /api/todos/1 HTTP/1.1 200 155 http-bio-8080-exec-5 2
