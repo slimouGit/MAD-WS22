@@ -43,12 +43,12 @@ public class ToDo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ToDo toDo = (ToDo) o;
-        return id == toDo.id && checked == toDo.checked && favourite == toDo.favourite && overdue == toDo.overdue && Objects.equals(name, toDo.name) && Objects.equals(description, toDo.description) && Objects.equals(expiry, toDo.expiry) && Objects.equals(readableExpiry, toDo.readableExpiry);
+        return id == toDo.id && checked == toDo.checked && favourite == toDo.favourite && Objects.equals(name, toDo.name) && Objects.equals(description, toDo.description) && Objects.equals(expiry, toDo.expiry);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, checked, favourite, expiry, readableExpiry, overdue);
+        return Objects.hash(id, name, description, checked, favourite, expiry);
     }
 
     public long getId() {

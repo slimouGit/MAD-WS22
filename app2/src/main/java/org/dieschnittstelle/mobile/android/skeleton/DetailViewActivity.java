@@ -94,6 +94,12 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         //        this.binding.setItem(this.item);
     }
 
+    public void deleteTodo(){
+        System.out.print("DELETE");
+//        crudOperations.deleteToDo(getItem().getId());
+        onDeleteItem();
+    }
+
     public void showDatePickerDialog() {
         MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
         builder.setTitleText("Select a Date");
@@ -148,6 +154,20 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
                 () -> item.getId() > 0 ? crudOperations.updateToDo(item) : crudOperations.createToDo(item),
                 item -> {
                     this.item = item;
+                    returnIntent.putExtra(ARG_ITEM_ID, this.item.getId());
+                    setResult(resultCode, returnIntent);
+                    finish();
+                }
+        );
+    }
+
+    public void onDeleteItem() {
+        Intent returnIntent = new Intent();
+
+        int resultCode = item.getId() > 0 ? STATUS_UPDATED : STATUS_CREATED;
+        operationRunner.run(
+                () -> item.getId() > 0 ? crudOperations.deleteToDo(item.getId()) : crudOperations.deleteToDo(item.getId()),
+                item -> {
                     returnIntent.putExtra(ARG_ITEM_ID, this.item.getId());
                     setResult(resultCode, returnIntent);
                     finish();

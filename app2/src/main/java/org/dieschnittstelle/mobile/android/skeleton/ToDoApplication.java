@@ -23,7 +23,7 @@ public class ToDoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         try {
-            if (checkConnectivity().get()) {
+            if (new Conectivity().checkConnectivity().get()) {
                 ToDoCRUDOperations crudOperations = new SyncedToDoCRUDOperations(
                         new RoomLocalTodoCRUDOperations(this),
                         new RetrofitRemoteDataItemCRUDOperations());
@@ -42,23 +42,4 @@ public class ToDoApplication extends Application {
         return this.crudOperations;
     }
 
-    public Future<Boolean> checkConnectivity() {
-        CompletableFuture<Boolean> result = new CompletableFuture<>();
-        new Thread(() -> {
-            try {
-                HttpURLConnection conn = (HttpURLConnection) new URL("http://10.0.2.2:8080/api/todos").openConnection();
-                conn.setConnectTimeout(500);
-                conn.setReadTimeout(500);
-                conn.setRequestMethod("GET");
-                conn.setDoInput(true);
-                conn.connect();
-                conn.getInputStream();
-                result.complete(true);
-            } catch (Exception e) {
-                Log.e("ToDoException", "No connection" + e, e);
-                result.complete(false);
-            }
-        }).start();
-        return result;
-    }
 }
