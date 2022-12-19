@@ -59,14 +59,14 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@{item.overdue ? @drawable/exclamation_mark : @drawable/blank_mark}" />
+                android:src="@{item.favourite ? @drawable/exclamation_mark : @drawable/blank_mark}" />
 
             <TextView
                 android:id="@+id/expiry"
                 android:layout_column="1"
                 android:layout_marginLeft="8dp"
                 android:padding="3dip"
-                android:text="@{item.readableExpiry}"/>
+                android:text="@{item.expiry}"/>
 
             <TextView
                 android:id="@+id/importance"

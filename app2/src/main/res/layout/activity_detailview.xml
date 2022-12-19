@@ -59,7 +59,7 @@
         <TextView
             android:id="@+id/expiryItem"
             android:layout_column="1"
-            android:text="@{viewmodel.item.readableExpiry}"
+            android:text="@{viewmodel.item.expiry}"
             android:padding="3dip"
             android:textSize="20sp"
             android:textColor="@color/colorPrimary"
