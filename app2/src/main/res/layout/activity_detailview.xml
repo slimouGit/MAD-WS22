@@ -96,6 +96,7 @@
             android:text="Delete"
             app:layout_constraintLeft_toLeftOf="parent"
             android:onClick="@{() -> viewmodel.deleteTodo()}"
+            android:visibility="@{viewmodel.item.id > 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@+id/itemDescriptionWrapper"/>
 
 

@@ -94,7 +94,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         //        this.binding.setItem(this.item);
     }
 
-    public void deleteTodo(){
+    public void deleteTodo() {
         System.out.print("DELETE");
 //        crudOperations.deleteToDo(getItem().getId());
         onDeleteItem();
@@ -131,7 +131,6 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
     private void addTime(Calendar calendar) {
 
 
-
     }
 
 
@@ -162,17 +161,19 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
     }
 
     public void onDeleteItem() {
-        Intent returnIntent = new Intent();
-
-        int resultCode = item.getId() > 0 ? STATUS_UPDATED : STATUS_CREATED;
-        operationRunner.run(
-                () -> item.getId() > 0 ? crudOperations.deleteToDo(item.getId()) : crudOperations.deleteToDo(item.getId()),
-                item -> {
-                    returnIntent.putExtra(ARG_ITEM_ID, this.item.getId());
-                    setResult(resultCode, returnIntent);
-                    finish();
-                }
-        );
+        if (item.getId() > 0) {
+            operationRunner.run(
+                    () -> crudOperations.deleteToDo(item.getId()),
+                    item -> {
+                        Intent intent = new Intent(DetailViewActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(this, "Todo is deleted successfully", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+            );
+        } else {
+            Toast.makeText(this, "Cannot continue, Todo has to be saved", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
