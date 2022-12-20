@@ -93,10 +93,15 @@ public class ToDo implements Serializable {
     }
 
     public String getExpiry() {
-        Long unixTime = Long.valueOf(expiry);
-        String formats = "dd.MM.yyyy HH:mm";
-        String date = new SimpleDateFormat(formats, Locale.GERMANY).format(new Date(unixTime));
-        return date;
+        String formattedDate = "";
+        if(expiry.matches("[0-9]+")){
+            Long unixTime = Long.valueOf(expiry);
+            String formats = "dd.MM.yyyy HH:mm";
+            formattedDate = new SimpleDateFormat(formats, Locale.GERMANY).format(new Date(unixTime));
+        }else {
+            formattedDate = expiry;
+        }
+        return formattedDate;
     }
 
     public void setExpiry(String expiry) {

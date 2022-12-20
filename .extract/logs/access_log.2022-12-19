@@ -292,3 +292,5 @@
 127.0.0.1 - - [19/Dec/2022:19:38:35 +0100] PUT /api/todos/1 HTTP/1.1 200 127 http-bio-8080-exec-6 2
 127.0.0.1 - - [19/Dec/2022:19:38:45 +0100] GET / HTTP/1.1 304 - http-bio-8080-exec-2 7
 127.0.0.1 - - [19/Dec/2022:19:38:45 +0100] GET /api/todos HTTP/1.1 200 129 http-bio-8080-exec-2 7
+127.0.0.1 - - [19/Dec/2022:19:40:49 +0100] GET /api/todos HTTP/1.1 200 129 http-bio-8080-exec-3 2
+127.0.0.1 - - [19/Dec/2022:19:41:41 +0100] PUT /api/todos/1 HTTP/1.1 200 127 http-bio-8080-exec-5 2
