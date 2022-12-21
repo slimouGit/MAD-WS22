@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -28,8 +30,6 @@ public class ToDo implements Serializable {
     @SerializedName("favourite")
     private boolean favourite;
     private String expiry;
-//    private String readableExpiry;
-//    private boolean overdue;
 
     public ToDo() {
     }
@@ -108,34 +108,27 @@ public class ToDo implements Serializable {
         this.expiry = expiry;
     }
 
-    //    public String getReadableExpiry() {
-//        Long unixTime = Long.valueOf(expiry);
-//        String formats = "dd.MM.yyyy HH:mm";
-//        String date = new SimpleDateFormat(formats, Locale.GERMANY).format(new Date(unixTime));
-//        return date;
-//    }
-//
-//    public void setReadableExpiry(String readableExpiry) {
-//        this.readableExpiry = readableExpiry;
-//    }
-//
     public boolean isOverdue() {
         boolean showExclamationMark = false;
+        Date expiryDate = null;
         if (expiry.matches("[0-9]+")) {
-            Date expiryDate = new Date(Long.valueOf(expiry));
-            Date currentDate = new java.util.Date(System.currentTimeMillis());
-            int result = expiryDate.compareTo(currentDate);
-            if (result == 0 || result < 0) {
-                showExclamationMark = true;
-            } else if (result > 0) {
+            expiryDate = new Date(Long.valueOf(expiry));
+        } else {
+            DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMANY);
+            try {
+                expiryDate = formatter.parse(expiry);
+            } catch (ParseException e) {
+                e.printStackTrace();
                 showExclamationMark = false;
-            } else {
             }
+        }
+        Date currentDate = new java.util.Date(System.currentTimeMillis());
+        int result = expiryDate.compareTo(currentDate);
+        if (result == 0 || result < 0) {
+            showExclamationMark = true;
+        } else if (result > 0) {
+            showExclamationMark = false;
         }
         return showExclamationMark;
     }
-//
-//    public void setOverdue(boolean overdue) {
-//        this.overdue = overdue;
-//    }
 }
