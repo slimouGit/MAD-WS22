@@ -51,6 +51,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
     private ArrayAdapter<ToDo> listViewAdapter;
     private String errorStatus;
     private ToDo item;
+    private boolean deleted;
     private ActivityDetailviewBindingImpl binding;
     private MADAsyncOperationRunner operationRunner;
     private ToDoCRUDOperations crudOperations;
@@ -161,13 +162,18 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
     }
 
     public void onDeleteItem() {
+        Intent returnIntent = new Intent();
+        int resultCode = STATUS_UPDATED;
         if (item.getId() > 0) {
             operationRunner.run(
                     () -> crudOperations.deleteToDo(item.getId()),
                     item -> {
+                        this.deleted = item;
                         Intent intent = new Intent(DetailViewActivity.this, MainActivity.class);
                         startActivity(intent);
                         Toast.makeText(this, "Todo is deleted successfully", Toast.LENGTH_LONG).show();
+                        returnIntent.putExtra(ARG_ITEM_ID, this.item.getId());
+                        setResult(resultCode, returnIntent);
                         finish();
                     }
             );

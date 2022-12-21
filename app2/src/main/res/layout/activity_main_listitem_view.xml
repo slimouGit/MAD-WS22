@@ -59,7 +59,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@{item.favourite ? @drawable/exclamation_mark : @drawable/blank_mark}" />
+                android:src="@{item.overdue ? @drawable/exclamation_mark : @drawable/blank_mark}" />
 
             <TextView
                 android:id="@+id/expiry"

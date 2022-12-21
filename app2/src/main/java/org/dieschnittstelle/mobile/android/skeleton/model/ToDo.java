@@ -119,19 +119,19 @@ public class ToDo implements Serializable {
 //        this.readableExpiry = readableExpiry;
 //    }
 //
-//    public boolean isOverdue() {
-//        boolean showExclamationMark = false;
-//        Date expiryDate = new Date(Long.valueOf(expiry));
-//        Date currentDate = new java.util.Date(System.currentTimeMillis());
-//        int result = expiryDate.compareTo(currentDate);
-//        if (result == 0 || result < 0) {
-//            showExclamationMark = true;
-//        } else if (result > 0) {
-//            showExclamationMark = false;
-//        } else {
-//        }
-//        return showExclamationMark;
-//    }
+    public boolean isOverdue() {
+        boolean showExclamationMark = false;
+        Date expiryDate = new Date(Long.valueOf(expiry));
+        Date currentDate = new java.util.Date(System.currentTimeMillis());
+        int result = expiryDate.compareTo(currentDate);
+        if (result == 0 || result < 0) {
+            showExclamationMark = true;
+        } else if (result > 0) {
+            showExclamationMark = false;
+        } else {
+        }
+        return showExclamationMark;
+    }
 //
 //    public void setOverdue(boolean overdue) {
 //        this.overdue = overdue;
