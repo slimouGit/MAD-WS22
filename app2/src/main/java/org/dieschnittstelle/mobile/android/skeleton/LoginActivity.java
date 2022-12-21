@@ -95,8 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                     spinner=(ProgressBar)findViewById(R.id.progressBar);
                     spinner.setVisibility(View.VISIBLE);
                     Toast.makeText(LoginActivity.this, "You have authenticated successfully", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    redirectToListView();
                 } else {
                     loginErrorMessage.setVisibility(View.VISIBLE);
                 }
@@ -108,6 +107,11 @@ public class LoginActivity extends AppCompatActivity {
                 return (Objects.equals(username.getText().toString(), USERNAME) && Objects.equals(password.getText().toString(), PASSWORD));
             }
         });
+    }
+
+    private void redirectToListView() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void checkLoginButtonState() {
