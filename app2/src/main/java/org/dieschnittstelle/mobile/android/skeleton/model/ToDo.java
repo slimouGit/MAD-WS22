@@ -94,11 +94,11 @@ public class ToDo implements Serializable {
 
     public String getExpiry() {
         String formattedDate = "";
-        if(expiry.matches("[0-9]+")){
+        if (expiry.matches("[0-9]+")) {
             Long unixTime = Long.valueOf(expiry);
             String formats = "dd.MM.yyyy HH:mm";
             formattedDate = new SimpleDateFormat(formats, Locale.GERMANY).format(new Date(unixTime));
-        }else {
+        } else {
             formattedDate = expiry;
         }
         return formattedDate;
@@ -108,7 +108,7 @@ public class ToDo implements Serializable {
         this.expiry = expiry;
     }
 
-//    public String getReadableExpiry() {
+    //    public String getReadableExpiry() {
 //        Long unixTime = Long.valueOf(expiry);
 //        String formats = "dd.MM.yyyy HH:mm";
 //        String date = new SimpleDateFormat(formats, Locale.GERMANY).format(new Date(unixTime));
@@ -121,14 +121,16 @@ public class ToDo implements Serializable {
 //
     public boolean isOverdue() {
         boolean showExclamationMark = false;
-        Date expiryDate = new Date(Long.valueOf(expiry));
-        Date currentDate = new java.util.Date(System.currentTimeMillis());
-        int result = expiryDate.compareTo(currentDate);
-        if (result == 0 || result < 0) {
-            showExclamationMark = true;
-        } else if (result > 0) {
-            showExclamationMark = false;
-        } else {
+        if (expiry.matches("[0-9]+")) {
+            Date expiryDate = new Date(Long.valueOf(expiry));
+            Date currentDate = new java.util.Date(System.currentTimeMillis());
+            int result = expiryDate.compareTo(currentDate);
+            if (result == 0 || result < 0) {
+                showExclamationMark = true;
+            } else if (result > 0) {
+                showExclamationMark = false;
+            } else {
+            }
         }
         return showExclamationMark;
     }
