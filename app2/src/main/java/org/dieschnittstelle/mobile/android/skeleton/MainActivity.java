@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private ToDoCRUDOperations crudOperations;
     private ProgressBar progressBar;
     private MADAsyncOperationRunner operationRunner;
-    private Comparator<ToDo> currentComparator = NAME_COMPARATOR;
+    private Comparator<ToDo> currentComparator = CHECKED_AND_NAME_COMPARATOR;
     private RoomLocalTodoCRUDOperations localTodoCRUDOperations;
     private TextView itemDateTime;
 
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        crudOperations = ToDoCRUDOperationsImpl.getInstance();
 //        crudOperations = new RoomLocalTodoCRUDOperations(this.getApplicationContext());
-        crudOperations =  ((ToDoApplication)getApplication()).getCrudOperations();
+        crudOperations = ((ToDoApplication) getApplication()).getCrudOperations();
 
 
         operationRunner.run(
@@ -103,15 +103,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @GET
-    public String getReadableDateTime(ToDo item){
+    public String getReadableDateTime(ToDo item) {
         return item.getExpiry();
-    };
+    }
 
-    public boolean isTodoOverdue(ToDo item ){
+    ;
+
+    public boolean isTodoOverdue(ToDo item) {
         return true;
     }
 
-    public void onMakeItImportance(ToDo item){
+    public void onMakeItImportance(ToDo item) {
         System.out.print("Item to be important " + item);
         item.setFavourite(!item.isFavourite());
         this.operationRunner.run(
@@ -236,7 +238,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "You have logged out successfully", Toast.LENGTH_LONG).show();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             return true;
-        } if (item.getItemId() == R.id.sortList) {
+        }
+        if (item.getItemId() == R.id.sortList) {
             showMessage("SORT LIST");
             this.currentComparator = DATE_AND_FAV_COMPARATOR;
             sortItems();
@@ -262,5 +265,6 @@ public class MainActivity extends AppCompatActivity {
                     showMessage("checked changed " + updateditem.getName());
                 }
         );
+        this.sortItems();
     }
 }
