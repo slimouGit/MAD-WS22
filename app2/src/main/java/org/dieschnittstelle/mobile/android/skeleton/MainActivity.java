@@ -251,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (item.getItemId() == R.id.deleteAllItemsLocally) {
             showMessage("DELETE ALL ITEMS LOCALLY");
+            this.crudOperations.deleteAll();
             return true;
         } else {
             return super.onOptionsItemSelected(item);

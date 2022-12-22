@@ -39,9 +39,14 @@ import org.dieschnittstelle.mobile.android.skeleton.model.ToDoCRUDOperations;
 import org.dieschnittstelle.mobile.android.skeleton.util.MADAsyncOperationRunner;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class DetailViewActivity extends AppCompatActivity implements DetailViewModel {
@@ -101,15 +106,38 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         onDeleteItem();
     }
 
+    long openAt = 0L;
+
     public void showDatePickerDialog() {
+        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMANY);
+        Date expiryDate = null;
+        int hours = 10;
+        int minutes = 42;
         MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
+        if (this.item.getId() != 0) {
+            try {
+                expiryDate = formatter.parse(this.item.getExpiry());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            builder.setSelection(expiryDate.getTime());
+        }
         builder.setTitleText("Select a Date");
         MaterialDatePicker<Long> picker = builder.build();
-
+        System.out.print(this.item);
+        if (this.item.getId() != 0) {
+            try {
+                expiryDate = formatter.parse(this.item.getExpiry());
+                hours = expiryDate.getHours();
+                minutes = expiryDate.getMinutes();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setHour(Calendar.HOUR_OF_DAY)
-                .setMinute(Calendar.MINUTE)
+                .setHour(hours)
+                .setMinute(minutes)
                 .build();
 
         picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
