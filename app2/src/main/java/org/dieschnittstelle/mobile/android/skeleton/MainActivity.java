@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton addNewItemButton;
     public static final Comparator<ToDo> NAME_COMPARATOR = Comparator.comparing(ToDo::getName);
     public static final Comparator<ToDo> CHECKED_AND_NAME_COMPARATOR = Comparator.comparing(ToDo::isChecked).thenComparing(ToDo::getName);
-    public static final Comparator<ToDo> DATE_AND_FAV_COMPARATOR = Comparator.comparing(ToDo::getExpiry).thenComparing(ToDo::isFavourite);
+    public static final Comparator<ToDo> DATE_AND_FAV_COMPARATOR = Comparator.comparing(ToDo::isFavourite).thenComparing(ToDo::getExpiry);
     public static final String IS_NOFAV = "no fav?";
     public static final String IS_FAV = "is fav?";
     public static final String MARGIN_LEFT_WITH_ICON = "8dp";
@@ -234,11 +234,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.logout) {
-            Toast.makeText(MainActivity.this, "You have logged out successfully", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            return true;
-        }
+//        if (item.getItemId() == R.id.logout) {
+//            Toast.makeText(MainActivity.this, "You have logged out successfully", Toast.LENGTH_LONG).show();
+//            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//            return true;
+//        }
         if (item.getItemId() == R.id.sortList) {
             showMessage("SORT LIST");
             this.currentComparator = DATE_AND_FAV_COMPARATOR;
@@ -265,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
                     showMessage("checked changed " + updateditem.getName());
                 }
         );
+        this.currentComparator = CHECKED_AND_NAME_COMPARATOR;
         this.sortItems();
     }
 }
