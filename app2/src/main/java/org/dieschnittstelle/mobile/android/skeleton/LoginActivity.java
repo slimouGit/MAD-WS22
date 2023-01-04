@@ -27,6 +27,11 @@ public class LoginActivity extends AppCompatActivity {
     boolean passwordIsValid = false;
     private ProgressBar spinner;
 
+    private final String PASSWORD = "000000";
+    private final String USER = "s@bht.de";
+    private final String EMAILPATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]{2}";
+    private final String PASSWORDPATTERN = "[0-9]{6}";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]{2}";
+                    String emailPattern = EMAILPATTERN;
                     if (username.getText().toString().trim().matches(emailPattern)) {
                         usernameErrorMessage.setText("valid email");
                         usernameErrorMessage.setTextColor(Color.GREEN);
@@ -72,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String passwordPattern = "[0-9]{6}";
+                    String passwordPattern = PASSWORDPATTERN;
                     if (password.getText().toString().trim().matches(passwordPattern)) {
                         pwdErrorMessage.setText("valid password");
                         pwdErrorMessage.setTextColor(Color.GREEN);
@@ -104,9 +109,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             private boolean loginIsValid(EditText username, EditText password) {
-                final String USERNAME = "a@b.de";
-                final String PASSWORD = "123456";
-                return (Objects.equals(username.getText().toString(), USERNAME) && Objects.equals(password.getText().toString(), PASSWORD));
+                return (Objects.equals(username.getText().toString(), USER) && Objects.equals(password.getText().toString(), PASSWORD));
             }
         });
     }
