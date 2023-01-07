@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -42,8 +43,6 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -62,12 +61,13 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
     private ToDoCRUDOperations crudOperations;
     private ActivityResultLauncher<Intent> selectContactLauncher;
     private String expiryDateTime;
+    private TextView expiryItem;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_detailview);
-
+        this.expiryItem = findViewById(R.id.expiryItem);
         this.selectContactLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -124,6 +124,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         }
         builder.setTitleText("Select a Date");
         MaterialDatePicker<Long> picker = builder.build();
+
         System.out.print(this.item);
         if (this.item.getId() != 0) {
             try {
@@ -151,6 +152,12 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
                 ts.setMinutes(materialTimePicker.getMinute());
                 String time = String.valueOf(ts.getTime());
                 getItem().setExpiry(time);
+                this.updateExpiryInCurrentView();
+            }
+
+            private void updateExpiryInCurrentView() {
+                TextView expiryItem = findViewById(R.id.expiryItem);
+                expiryItem.setText(getItem().getExpiry());
             }
         });
         picker.show(getSupportFragmentManager(), picker.toString());
