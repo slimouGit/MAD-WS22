@@ -124,7 +124,7 @@ public class ToDo implements Serializable {
         }
         Date currentDate = new java.util.Date(System.currentTimeMillis());
         int result = expiryDate.compareTo(currentDate);
-        if (result == 0 || result < 0) {
+        if (result == 0 || result < 0 && !checked) {
             showExclamationMark = true;
         } else if (result > 0) {
             showExclamationMark = false;
