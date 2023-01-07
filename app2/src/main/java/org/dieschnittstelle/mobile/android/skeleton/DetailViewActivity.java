@@ -152,12 +152,12 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
                 ts.setMinutes(materialTimePicker.getMinute());
                 String time = String.valueOf(ts.getTime());
                 getItem().setExpiry(time);
-                this.updateExpiryInCurrentView();
+                this.updateExpiryInCurrentView(item.getExpiry());
             }
 
-            private void updateExpiryInCurrentView() {
+            private void updateExpiryInCurrentView(String time) {
                 TextView expiryItem = findViewById(R.id.expiryItem);
-                expiryItem.setText(getItem().getExpiry());
+                expiryItem.setText(time);
             }
         });
         picker.show(getSupportFragmentManager(), picker.toString());

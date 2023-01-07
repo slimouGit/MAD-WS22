@@ -177,11 +177,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onDataItemUpdated(ToDo item) {
-        ToDo itemToBeUpdated = this.listViewAdapter.getItem(this.listViewAdapter.getPosition(item));
+        ToDo itemToBeUpdated = item;
         itemToBeUpdated.setName(item.getName());
         itemToBeUpdated.setDescription(item.getDescription());
         itemToBeUpdated.setChecked(item.isChecked());
         this.listViewAdapter.notifyDataSetChanged();
+        startActivity(new Intent(MainActivity.this, MainActivity.class));
     }
 
     private void addListItemView(ToDo item) {
