@@ -97,16 +97,12 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         } else {
             this.binding.setViewmodel(this);
         }
-        //        this.binding.setItem(this.item);
     }
 
     public void deleteTodo() {
         System.out.print("DELETE");
-//        crudOperations.deleteToDo(getItem().getId());
         onDeleteItem();
     }
-
-    long openAt = 0L;
 
     public void showDatePickerDialog() {
         DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.GERMANY);
@@ -163,12 +159,6 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         picker.show(getSupportFragmentManager(), picker.toString());
         materialTimePicker.show(getSupportFragmentManager(), materialTimePicker.toString());
     }
-
-    private void addTime(Calendar calendar) {
-
-
-    }
-
 
     public ToDo getItem() {
         return this.item;

@@ -49,9 +49,6 @@ public class MainActivity extends AppCompatActivity {
     public static final Comparator<ToDo> FAV_AND_DATE_COMPARATOR = Comparator.comparing(ToDo::isFavourite).reversed();
     public static final String IS_NOFAV = "no fav?";
     public static final String IS_FAV = "is fav?";
-    public static final String MARGIN_LEFT_WITH_ICON = "8dp";
-    public static final String MARGIN_LEFT_WITHOUT_ICON = "20dp";
-    public static final String BLANK = "          ";
     private ListView listView;
     private ArrayAdapter<ToDo> listViewAdapter;
     private List<ToDo> listViewItems = new ArrayList<>();
@@ -60,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private MADAsyncOperationRunner operationRunner;
     private Comparator<ToDo> currentComparator = CHECKED_AND_NAME_COMPARATOR;
-    private RoomLocalTodoCRUDOperations localTodoCRUDOperations;
     private TextView itemDateTime;
 
 
@@ -86,18 +82,13 @@ public class MainActivity extends AppCompatActivity {
                 onListitemSelected(selectedItem);
             }
         });
-
         initialiseActivityResultLauncher();
-
-//        crudOperations = ToDoCRUDOperationsImpl.getInstance();
-//        crudOperations = new RoomLocalTodoCRUDOperations(this.getApplicationContext());
         crudOperations = ((ToDoApplication) getApplication()).getCrudOperations();
 
 
         operationRunner.run(
                 () -> crudOperations.readAllToDos(),
                 items -> {
-//                    items.forEach(item -> this.addListItemView(item));
                     items.forEach(this::addListItemView);
                     sortItems();
                 });
@@ -115,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onMakeItImportance(ToDo item) {
-        System.out.print("Item to be important " + item);
         item.setFavourite(!item.isFavourite());
         this.operationRunner.run(
                 () -> crudOperations.updateToDo(item),
@@ -124,8 +114,6 @@ public class MainActivity extends AppCompatActivity {
                     showMessage("checked changed " + updateditem.getName());
                 }
         );
-
-//        this.onDataItemUpdated(item);
     }
 
     @NonNull
@@ -209,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showMessage(String msg) {
-//        Toast.makeText(this,msg, Toast.LENGTH_SHORT).show();
         Snackbar.make(viewRoot, msg, Snackbar.LENGTH_SHORT).show();
     }
 
@@ -217,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void onAddNewItemButton() {
         Intent detailviewIntentForAddItem = new Intent(this, DetailViewActivity.class);
-//        startActivityForResult(detailviewIntentForAddItem, CALL_DETAILVIEW_FOR_NEW_ITEM);
         detailviewActivityLauncher.launch(detailviewIntentForAddItem);
     }
 
@@ -229,8 +215,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == CALL_DETAILVIEW_FOR_NEW_ITEM) {
             if (resultCode == Activity.RESULT_OK) {
                 String name = data.getStringExtra(DetailViewActivity.ARG_ITEM_ID);
-//                showMessage("revieved: " + name);
-//                addListItemView(name);
+                showMessage("revieved: " + name);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -246,11 +231,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if (item.getItemId() == R.id.logout) {
-//            Toast.makeText(MainActivity.this, "You have logged out successfully", Toast.LENGTH_LONG).show();
-//            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//            return true;
-//        }
         if (item.getItemId() == R.id.sortList) {
             showMessage("SORT LIST");
             if (this.currentComparator.equals(DATE_AND_FAV_COMPARATOR)) {
