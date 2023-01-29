@@ -89,9 +89,6 @@
                 android:text="@={viewmodel.item.description}" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"

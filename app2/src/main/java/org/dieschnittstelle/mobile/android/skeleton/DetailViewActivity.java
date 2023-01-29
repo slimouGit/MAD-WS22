@@ -43,8 +43,10 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -62,6 +64,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
     private ActivityResultLauncher<Intent> selectContactLauncher;
     private String expiryDateTime;
     private TextView expiryItem;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -301,6 +304,8 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
     }
 
     public void showContactDetailsForInternalId(long internalId) {
+        String contact = "";
+        List<String> tmpContacts = new ArrayList<>();
         Cursor cursor = getContentResolver().query(
                 ContactsContract.Contacts.CONTENT_URI,
                 null,
@@ -309,6 +314,7 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
         if (cursor.moveToFirst()) {
             @SuppressLint("Range") String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
             Log.i(LOGGER, "displayed Name " + displayName);
+            contact = "Name:\t" + displayName;
 
         } else {
             Toast.makeText(this, "No Contacts found for internalId " + internalId + "...", Toast.LENGTH_LONG).show();
@@ -325,6 +331,14 @@ public class DetailViewActivity extends AppCompatActivity implements DetailViewM
             @SuppressLint("Range") String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             @SuppressLint("Range") int phoneNumberType = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             Log.i(LOGGER, "got Number " + number + " of type " + (phoneNumberType == ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE ? "mobile" : "not mobil"));
+            String phone = "\nPhone:\t" + number;
+            contact += phone;
+            this.showAddedContact(contact);
+
         }
+    }
+
+    private void showAddedContact(String contact) {
+        Toast.makeText(this, "Contact was added:\n" + contact, Toast.LENGTH_LONG).show();
     }
 }

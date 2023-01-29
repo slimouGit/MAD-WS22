@@ -13,7 +13,9 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
@@ -30,7 +32,7 @@ public class ToDo implements Serializable {
     @SerializedName("favourite")
     private boolean favourite;
     private String expiry;
-
+  
     public ToDo() {
     }
 
@@ -92,6 +94,8 @@ public class ToDo implements Serializable {
         this.favourite = favourite;
     }
 
+
+
     public String getExpiry() {
         String formattedDate = "";
         if (expiry.matches("[0-9]+")) {
@@ -131,4 +135,5 @@ public class ToDo implements Serializable {
         }
         return showExclamationMark;
     }
+
 }
